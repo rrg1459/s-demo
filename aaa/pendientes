@@ -21,7 +21,7 @@ ok   09 quitar titulos cuando el contacto no tenga grupos
 *******************************************************
 
 git add -A
-git commit -m "3er commit se cambia mensaje de la pagina index"
+git commit -m "2do commit, adaptacion a sms-demo"
 
 git push heroku master
 

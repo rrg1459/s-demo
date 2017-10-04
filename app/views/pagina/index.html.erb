@@ -7,11 +7,9 @@
         <h4>
           Esta página está configurada para enviar SMS a través de las operadoras telefónicas en Venezuela de <%= image_tag "movilnet.jpg" %>, <%= image_tag "movistar.jpg" %> y <%= image_tag "digitel.jpg" %>.
         </h4>
-<!--
         <h4>
           En el modo "demo" se puede crear una cuenta y enviar hasta <b>10 SMS gratuitos</b> a cualquier operadora, si está interesado en usar "Los Servicios" de esta página para sus requerimientos políticos, empresariales, sociales, o personales nos puede contactar por correo. 
         </h4>
--->
         <h4>
           En esta página se pueden cargar contactos manualmente (1 X 1), ó a través de un archivo excel (por lote), y se pueden configurar los grupos de contactos necesarios, según los requerimientos e intereses del usuario.
         </h4>
@@ -31,7 +29,6 @@
             <%= link_to "Olvidaste tu contraseña?", new_password_path(:user) %>
           </div>
         </div>
-        <% if !User.take %>
           <div class="row">
             <div class="panel panel-default">
               <div class="panel-heading">
@@ -42,7 +39,6 @@
               </div>
             </div>
           </div>
-        <% end %>
       </div>
     </div>
   </div>

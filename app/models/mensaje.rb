@@ -72,8 +72,8 @@ private
     end
     enviar_sms
     total = total * @valor.to_i
-#   @saldo = Saldo.find_by(usuario_id: current_user.id) # aaa bbb ccc xxx zzz ref application_controller linea 10
-    @saldo = Saldo.find_by(usuario_id: 999999) # aaa bbb ccc xxx zzz  ref application_controller linea 10
+    @saldo = Saldo.find_by(usuario_id: current_user.id) # aaa bbb ccc xxx zzz ref application_controller linea 10
+#   @saldo = Saldo.find_by(usuario_id: 999999) # aaa bbb ccc xxx zzz  ref application_controller linea 10
     @saldo.update_columns(saldo: (@saldo.saldo - total)) 
     mensaje.enviado_por_id = current_user.id
     mensaje.f_enviado = Time.now
@@ -139,8 +139,8 @@ private
       end
     end
     total *= @valor.to_i
-#   saldo= Saldo.find_by(usuario_id: current_user.id)
-    saldo= Saldo.find_by(usuario_id: 999999)
+    saldo= Saldo.find_by(usuario_id: current_user.id)
+#   saldo= Saldo.find_by(usuario_id: 999999)
     @capacidad = true
     @capacidad = false if total > saldo.saldo
     @mensaje = 'El alcance supera su saldo, recargue su saldo para envíar este mensaje' if total > saldo.saldo
