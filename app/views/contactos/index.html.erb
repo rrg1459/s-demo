@@ -1,0 +1,72 @@
+<div class="col-lg-3"></div>
+<div class="col-lg-6 well">
+  <% s = 's'; s = '' if @total == 1 %>
+  <table style="width:100%">
+    <tr>
+      <th style="text-align: left" ><h1><%= "#{@total} Contacto#{s}" %></h1></th>
+      <th style="text-align: right" ><%= button_to 'Nuevo Contacto', new_contacto_path, :class => "btn btn-primary", method: :get %></th>
+    </tr>
+  </table>
+  <br>
+  <% if @total > 9 %>
+    <fieldset class="search-field">
+      <legend>Buscar en Contactos</legend>
+      <%= search_form_for @buscar do |f| %>
+        <div class="field">
+          <%= f.label :nombre_cont, "El nombre contiene:" %>
+          <%= f.text_field :nombre_cont, class: "mostrar form-control", style: "width: 110px;" %>   </div>
+          <div class="field">
+            <%= f.label :numero_cont, "El numero contiene:" %>
+            <%= f.text_field :numero_cont, class: "mostrar form-control", style: "width: 110px;" %>
+          </div>
+          <table>
+            <br><strong><%= f.label "(pertenece a los grupos)" %><br /></strong>
+            <%= f.collection_check_boxes :grupos_id_in_any, Grupo.all, :id, :nombre do |b| %>
+              <div class="collection-check-box">
+                <tr>
+                  <td><%= b.check_box %></td>
+                  <td><%= b.label %></td>
+                </tr>
+              </div>
+            <% end %>
+          </table>
+          <div class="actions"><%= f.submit "Buscar" %></div>
+      <% end %>
+      <legend></legend>
+    </fieldset>
+  <% end %>
+  <% if @total > 0 %>
+
+
+    <strong></strong><h3><%= "Listado" %></h3></strong>
+    <h5><%= "(Se puede ver detalle del contacto al hacer CLIC en el número o en el nombre)" %></h5>
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align: center" >Numero</th>
+          <th style="text-align: center" >Nombre</th>
+          <th style="text-align: center" >Archivo</th>
+          <th style="text-align: center" >Grupos</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @contactos.each do |contacto| %>
+          <tr>
+            <td><%= link_to "(0#{contacto.numero[0,3]})#{contacto.numero[3,3]}-#{contacto.numero[6,7]}", contacto %></td>
+            <td><%= link_to contacto.nombre, contacto %></td>
+            <td><%= contacto.archivo %></td>
+            <td><%= contacto.grupos.map(&:nombre).sort.join(", ") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+  <% if @total > 9 %>
+    <p><center>
+      Descargar <b>TODOS</b> los contactos en formato:
+      <u><%= link_to "CSV", contactos_path(format: "csv") %></u> |
+      <u><%= link_to "Excel", contactos_path(format: "xls") %></u>
+    </center></p>
+  <% end %>
+</div>

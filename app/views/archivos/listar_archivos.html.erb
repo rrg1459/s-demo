@@ -1,0 +1,18 @@
+<div class="col-lg-3"></div>
+<div class="col-lg-6 well">
+	<h2> Archivos </h2>
+	<table>
+	<br>
+	   <% @archivos.each do |a| %>
+	   <% if a == "." or a == ".." then next end; %>
+	   <tr>
+	      <td><a target="_blank" href="/archivos/<%= a %>"><%= a %></a></td> 
+	      <td style="text-align: right" >
+	      <%= button_to 'Borrar',  {:class => "btn-sm btn-danger", :controller => "archivos", :action => "borrar_archivos", :archivo_a_borrar => a}, {:class => "btn-sm btn-danger", :method => "post", data: { confirm: "Esta seguro de querer borrar el archivo #{a}???"}} %>
+	      </td>
+	   </tr>
+	   <% end %>
+	</table>
+	<br>
+    <%= button_to 'Cargar Archivo', archivos_cargar_archivos_path, :class => "btn btn-info", method: :get %>
+</div>

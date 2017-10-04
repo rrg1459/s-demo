@@ -1,0 +1,56 @@
+<div id="mensaje-<%= mensaje.id %>" class="micropost">
+  <div class="content">
+    <div class="post-content">
+      <% nombre = mensaje.user.username.split(" ") %>
+      <b><%= "#{nombre[0].capitalize}" %></b>
+      <div class="mostrar alert alert-danger alert-dismissable">
+        <button type="button" class="close" ></button>
+        <%= mensaje.texto %>
+      </div>
+    </div>
+    <% if mensaje.f_enviado %>
+      <div class="right-content">
+        <span><%= relative_time(mensaje.f_enviado) %></span>
+      </div>
+      <div class="right-content">
+        <span><%= "Enviado: " %><strong><%= "#{mensaje.f_enviado.strftime("%d %b %Y")}" %></strong></span>
+      </div>
+    <% else %>
+      <div class="right-content">
+        <span><%= relative_time(mensaje.updated_at) %></span>
+      </div>
+      <div class="right-content">
+        <span><%= "Editado: " %><strong><%= "#{mensaje.updated_at.strftime("%d %b %Y")}" %></strong></span>
+      </div>
+    <% end %>
+  </div>
+  <div class="actions">
+    <div class="actions-content">
+      <% if !mensaje.f_enviado %>
+        <%= link_to mensaje, class: 'btn btn-link',  title: 'enviar mensaje', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom' do %>
+          <i class="fa fa-cog fa-spin"></i>
+        <% end %>
+        <% if mensaje.user == current_user %>
+          <%= link_to edit_mensaje_path(mensaje), class: 'btn btn-link',  title: 'editar mensaje', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom' do %>
+            <i class="fa fa-keyboard-o"></i>
+          <% end %>
+          <%= link_to mensaje, class: 'btn btn-link',  title: 'borrar mensaje', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', method: :delete, data: { confirm: "Esta usted seguro que quiere borrar este mensaje: #{mensaje.texto}???" } do %>
+            <i class="fa fa-trash"></i>
+          <% end %>
+        <% end %>
+      <% end %> 
+      <% if mensaje.cantidad_contactos != 0 %>
+        <% s = 's'; s = '' if mensaje.cantidad_contactos == 1 %>
+        <%= link_to alcance_path(mensaje), class: 'btn-link',  title: 'Detalle del mensaje', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom' do %>
+          <span><%= "Alcance: #{mensaje.cantidad_contactos} contacto#{s}" %></span>
+        <% end %>
+      <% end %>  
+    </div>
+  </div>
+</div>
+
+
+
+
+
+     

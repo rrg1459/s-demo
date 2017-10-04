@@ -1,0 +1,28 @@
+<div class="col-lg-3"></div>
+<div class="col-lg-6 well">
+  <%= form_for(@mensaje) do |f| %>
+    <% if @mensaje.errors.any? %>
+        <%= render 'parciales/error_message', error_message: @mensaje.errors.full_messages.first %>
+    <% end %>  
+    <div class="field">
+      <%= f.label "Modificar Texto" %>
+      <%= f.text_area :texto, class: "mostrar form-control", size: "128x2", placeholder: "Escribe un mensaje hasta 160 caracteres" %>
+    </div>
+    <br>
+    <% largo = 160 - @mensaje.texto.length %>
+    <%= button_tag id: "mensaje", class: "btn btn-primary" do %>
+       Guardar
+    <% end %>
+    <div class="pull-right"> 
+      <span id="mensaje-count"><%= "#{largo}" %></span>
+    </div>
+  <% end %>
+  <br>
+</div>
+
+
+
+
+
+
+

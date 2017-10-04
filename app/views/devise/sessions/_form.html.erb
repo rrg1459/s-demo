@@ -1,0 +1,27 @@
+<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+  <div class="form-group">
+    <%= f.text_field :login, class: "form-control", placeholder: "Correo o Usuario" %>
+  </div>
+  <div class="form-group">
+    <%= f.password_field :password, class: "form-control", placeholder: "contraseña" %>
+  </div>
+  <div class="form-group">
+  <table>
+        <div class="collection-check-box">
+        <tr>
+          <td><%= f.check_box :tos, required: true, checked: false  %></td>
+          <td><u>
+            <%= link_to terminos_condiciones_path, class: 'btn-xs btn-default',  title: 'CLIC, para ver los términos y condiciones', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom' do %>
+              <span  style="font-size:9px"><%= "He leído y acepto los Términos y Condiciones" %></span>
+            <% end %>
+          </u></td>
+        </tr>
+      </div>
+</table>
+    <%= f.submit 'Entrar', class: "btn btn-primary pull-right"  %>
+  </div>
+<% end %>
+
+
+
+ 

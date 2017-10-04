@@ -1,0 +1,41 @@
+<%= form_for(contacto) do |f| %>
+
+  <% if contacto.errors.any? %>
+    <%= render 'parciales/error_message', error_message: contacto.errors.full_messages.first %>
+  <% end %>
+
+  <button class="btn btn-primary">Guardar</button>
+
+  <br>
+  <br>
+  <% if @num %>
+    <div class="field">
+      <%= f.label :numero %>
+      <%= f.text_field :numero, id: :contacto_numero, class: "mostrar form-control", style: "width: 120px;"  %>
+    </div>
+  <% else %>
+    <%= "Telefono: " %> <strong><%= "(0#{contacto.numero[0,3]})#{contacto.numero[3,3]}-#{contacto.numero[6,7]}" %></strong>
+  <% end %>
+  <br>
+  <div class="field">
+    <%= f.label :nombre %>
+    <%= f.text_field :nombre, class: "mostrar form-control", style: "width: 340px;"  %>
+  </div>
+  <br>
+
+  <table>
+    <strong>
+    <h4><%= f.label "Seleccionar grupos para agregar al contacto" %></h4><br />
+    </strong>
+    <%= f.collection_check_boxes :grupo_ids, Grupo.all, :id, :nombre do |b| %>
+      <div class="collection-check-box">
+        <tr>
+          <td><%= b.check_box %></td>
+          <td><%= b.label %></td>
+        </tr>
+      </div>
+    <% end %>
+  </table>
+  <br>
+<% end %>
+<br>

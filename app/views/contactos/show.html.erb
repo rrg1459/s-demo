@@ -1,0 +1,55 @@
+<div class="col-lg-3"></div>
+<div class="col-lg-6 well">
+  <table style="width:100%">
+    <tr>
+      <th style="text-align: left" ><h1>Contacto</h1></th>
+      <th style="text-align: right" ><%= button_to 'Nuevo Contacto', new_contacto_path, :class => "btn btn-primary", method: :get %></th>
+    </tr>
+  </table>
+  <p>
+    <h3><strong><%= @contacto.nombre %></strong></h3>
+  </p>
+  <p>
+  <strong>Numero:</strong>
+   <%= "(0#{@contacto.numero[0,3]})#{@contacto.numero[3,3]}-#{@contacto.numero[6,7]}" %>
+  </p>
+  <p>
+  <strong>Archivo:</strong>
+   <%= @contacto.archivo %>
+  </p>
+  <% num = (@contacto.grupos.map(&:nombre).sort.join(', ')).length %>
+  <% if num > 0 %>
+    <h4>
+      <%= 'Grupos de este contacto:' %>
+      <strong><%= @contacto.grupos.map(&:nombre).sort.join(', ') %></strong>
+    </h4>
+    <br>
+  <% end %>
+  <% num = @mensajes.length %>
+  <table>
+    <th>
+      <td> <%= button_to 'Listado de Contactos', contactos_path, :class => "btn btn-info", method: :get %></td>
+      <td> <%= button_to 'Editar y Asociar Grupos', edit_contacto_path, :class => "btn btn-success", method: :get %></td>
+      <% if num > 0 %>
+        <td style="text-align: center" ><%= button_to 'Borrar', @contacto, :class => "btn btn-danger disabled", method: :delete, data: { confirm: "Esta usted seguro que quiere borrar a #{@contacto.nombre}???" } %></td>
+      <% else %>
+        <td style="text-align: center" ><%= button_to 'Borrar', @contacto, :class => "btn btn-danger", method: :delete, data: { confirm: "Esta usted seguro que quiere borrar a #{@contacto.nombre}???" } %></td>
+      <% end %>
+    </th>
+  </table>
+  <% if num > 0 %>
+    <br>
+    <h4><%= 'Mensajes enviados a este contacto:' %></h4>
+    <% @mensajes.each do |mensaje| %>
+      <% if mensaje.f_enviado %>
+        <div class="row">
+          <div class="col-lg-12">
+            <div id="feed" class="well feed">
+              <%= render(mensaje) %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

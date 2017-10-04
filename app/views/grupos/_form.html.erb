@@ -1,0 +1,32 @@
+<%= form_for(grupo) do |f| %>
+
+  <% if grupo.errors.any? %>
+    <%= render 'parciales/error_message', error_message: grupo.errors.full_messages.first %>
+  <% end %>
+
+  <button class="btn btn-primary">Guardar</button>
+
+  <br>
+  <br>
+
+  <div class="field">
+    <%= f.label :nombre %>
+    <%= f.text_field :nombre, id: :grupo_nombre, class: "mostrar form-control", style: "width: 340px;" %>
+  </div>
+  <table>
+    <br>
+    <strong>
+    <h4><%= f.label "Seleccionar contactos para agregar al grupo" %></h4><br />
+    </strong>
+    <%= f.collection_check_boxes :contacto_ids, Contacto.all.order("numero"), :id, :numero_nombre do |b| %>
+      <div class="collection-check-box">
+        <tr>
+          <td><%= b.check_box %></td>
+          <td><%= b.label  %></td>
+        </tr>
+      </div>
+    <% end %>
+  </table>
+  <br>
+<% end %>
+

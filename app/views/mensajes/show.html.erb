@@ -1,0 +1,81 @@
+<div class="col-lg-3"></div>
+<div class="col-lg-6 well">
+  <%= form_for :mensaje, url: mgrupo_path(@mensaje) do |f| %>
+      <% if @mensaje.errors.any? %>
+          <%= render 'parciales/error_message', error_message: @mensaje.errors.full_messages.first %>
+      <% end %>  
+        <%= f.label "Enviar Mensaje" %>
+    <div class="mostrar alert alert-danger alert-dismissable">
+      <button type="button" class="close" ></button>
+      <%= @mensaje.texto %>
+    </div>
+      <% largo =  @mensaje.texto.length %>
+      <div class="pull-right"> 
+        <span id="mensaje-count"><%= "#{largo} caracteres" %></span>
+      </div>
+      <% s = 's'; s = '' if @mensaje.cantidad_contactos == 1 %>
+      <%= link_to alcance_path(@mensaje), class: 'btn-link',  title: 'Detalle del mensaje', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom' do %>
+        <span><h5><%= "Alcance: #{@mensaje.cantidad_contactos} contacto#{s}" %></h5></span>
+      <% end %>
+      <% nombre = @mensaje.user.name.split(" ") %>
+      <h5><%= "Creado por #{nombre[0].capitalize} el " %><strong><%= @mensaje.created_at.strftime("%d %b %Y %I:%M %p") %></strong></h5>
+      <% if @mensaje.f_enviado %> 
+        <h5><%= "Enviado por #{@enviado_por[0].capitalize} el " %><strong><%= @mensaje.f_enviado.strftime("%d %b %Y %I:%M %p") %></strong></h5>
+      <% %>
+      <% end %>
+      <table>
+        <th>
+          <td><%= button_to '', '/', :class => "btn btn-link disabled", method: :get %></td>
+          <% if @mensaje.cantidad_contactos == 0 || @mensaje.f_enviado %>
+            <td><%= button_to 'Enviar', enviar_path(@mensaje), :class => "btn btn-danger disabled", method: :post %></td>        
+          <% else %>
+            <td><%= button_to 'Enviar', enviar_path(@mensaje), :class => "btn btn-danger", method: :post %></td>
+          <% end %>
+          <% if @mensaje.f_enviado %>
+            <td>    
+              <%= button_tag id: "mensaje", class: "btn btn-primary disabled" do %>
+                Guardar
+              <% end %>
+            </td>
+            <td> 
+              <% if @mensaje.user == current_user %>
+                <%= button_to edit_mensaje_path(@mensaje), :class => "btn btn-success disabled", method: :get do %>
+                  <span class="fa fa-keyboard-o"></span> Editar
+                <% end %>
+              <% end %>
+            </td>
+            <% else %>
+            <td>    
+              <%= button_tag id: "mensaje", class: "btn btn-primary" do %>
+                Guardar
+              <% end %>
+            </td>
+            <td> 
+              <% if @mensaje.user == current_user %>
+                <%= button_to edit_mensaje_path(@mensaje), :class => "btn btn-success", method: :get do %>
+                  <span class="fa fa-keyboard-o"></span> Editar
+                <% end %>
+              <% end %>
+            </td>
+          <% end %>
+          <td> <%= button_to 'Regresar', '/', :class => "btn btn-default", method: :get %></td>
+        </th>
+      <br>
+      <table>
+        <strong>
+        <h4><%= "Se sugiere guardar justo antes de enviar" %></h4>
+        <h5><%= "(para tener actualizado el alcance de los contactos)" %></h5><br />
+        </strong>
+        <%= f.collection_check_boxes :grupo_ids, Grupo.all, :id, :nombre_cantidad do |b| %>
+          <div class="collection-check-box">
+            <tr>
+              <td><%= b.check_box %></td>
+              <td><%= b.label %></td>
+            </tr>
+          </div>
+        <% end %>
+      </table>
+      <br>
+    <% end %>
+    <br>
+</div>

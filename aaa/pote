@@ -1,0 +1,186 @@
++++++++++++++++++++++++++++++++++++=
++++++++++++++++++++++++++++++++++++=
+https://www.w3schools.com/howto/howto_css_switch.asp
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 39px;
+  height: 21px;
+}
+
+.switch input {display:none;}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 13px;
+  width: 13px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(18px);
+  -ms-transform: translateX(18px);
+  transform: translateX(18px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 17px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+</style>
+</head>
+<body>
+
+<h2>Toggle Switch</h2>
+
+<label class="switch">
+  <input type="checkbox">
+  <span class="slider"></span>
+</label>
+
+<label class="switch">
+  <input type="checkbox" checked>
+  <span class="slider"></span>
+</label><br><br>
+
+<label class="switch">
+  <input type="checkbox">
+  <span class="slider round"></span>
+</label>
+
+<label class="switch">
+  <input type="checkbox" checked>
+  <span class="slider round"></span>
+</label>
+
+</body>
+</html> 
++++++++++++++++++++++++++++++++++++=
++++++++++++++++++++++++++++++++++++=
+
+
+
+    border-top:    2px solid black;
+    border-left:   2px solid black;
+    border-right:  2px solid black;
+    border-bottom: 2px solid black;
+
+
+
+Andorra 376
+Bahrein 973
+Benin 229
+Brunei  673
+Canadá  1
+República Centroafricana  236
+República del Congo 242
+Islas Cook  682
+China 86
+Dinamarca 45
+Islas Faroe 298
+Georgia 995
+Gibraltar 350
+Gambia  220
+Guinea Ecuatorial 240
+Indonesia 62
+Israel  972
+India 91
+Islandia  354
+Comoras 269
+Lituania  370
+Luemburgo 352
+Montenegro  382
+Mauricio  230
+Maldivas  960
+Mozambique  258
+Nigeria 234
+Niue  683
+Nueva Zelanda 64
+Pakistán  92
+Paraguay  595
+Serbia  381
+Singapur  sesenta y cinco
+Eslovenia 386
+Suriname  597
+Tailandia 66
+Turquía 90
+Estados Unidos  1
+Sudáfrica 27
+Zimbabue  263
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++
+ metodo actualizar_grupo que viene del modelo de contacto para leer la tabla join contacto-grupo
+     def actualizar_grupo
+      puts '.........................'
+      puts "id contacto: #{self.id}"
+      # GrupoContacto.all
+      #@gc = ContactosGrupo.where(grupo_id: 1)
+      #@gc = ContactosGrupo.all 
+      #@gc = ContactosGrupo.where(contacto_id: self.id)
+      cg = ContactosGrupo.where(contacto_id: self.id)
+      cg.each do |cg|
+        # grupo = Grupo.find(cg.grupo_id)
+        # puts "grupo1: #{grupo.nombre}"
+        # puts "id  gc: #{cg.id} - c-id:#{cg.contacto_id}  - g-id:#{cg.grupo_id}"
+        grupo = {"grupos_id_in_any"=>[cg.grupo_id.to_s]}
+        buscar = Contacto.search(grupo)
+        contactos = buscar.result(distinct: true)
+        cantidad = contactos.length
+        nom = Grupo.find(cg.grupo_id)
+        puts "grupo1: #{nom.nombre}"
+      end
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++
+  def enviar_mensaje(di)
+    puts '. . . . . . . . . . . . . . . . . . . . . . . . . . .'
+    mensaje = Mensaje.find(di)
+#   puts mensaje.contactos.inspect
+    cm = ContactosMensaje.where(mensaje_id: di)
+#   puts cm.inspect
+    cm.each do |c|
+      contacto = Contacto.find(c.contacto_id)
+      puts "Numero: #{contacto.numero}, mensaje: #{mensaje.texto}"
+      puts `curl -X POST https://api.textveloper.com/sms/enviar -d "telefono=0#{contacto.numero}&mensaje=#{mensaje.texto}&cuenta_token="44401a333598d4f8c502d721807c26df4e4402fb"&aplicacion_token="1db2f7c644627a98d9e6e0f6b2c4f658df42b922""`
+    end
+    puts '. . . . . . . . . . . . . . . . . . . . . . . . . . .'
+  end
+++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++
+

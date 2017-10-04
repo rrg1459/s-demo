@@ -1,0 +1,22 @@
+Agregar Devise Invitable al Gemfile
+gem 'devise_invitable'
+
+$ rails generate devise_invitable:install
+
+$ rails generate devise_invitable User
+
+Quizás quieras remover la opción :registerable si el usuario sólo puede registrarse a través de una invitación.
+
+Una vez hecho lo anterior, sólo resta correr migraciones y nuestro modelo User estará listo para trabajar con invitaciones.
+
+$ rails db:migrate
+
+Para enviar una invitación se debe, desde algún lugar accesible para el administrador (o usuario de mayor jerarquía), ejecutar el siguiente código:
+
+User.invite!(:email => "new_user@platan.us")
+
+-----
+
+
+fuente:
+https://blog.platan.us/invitar-usuarios-con-devise-465824e33ac2

@@ -1,0 +1,29 @@
+https://jes.al/2012/10/installing-curb-gem-on-windows-7/
+Instalación de la gema curb en Windows 7
+03 de octubre de 2012
+Usted está leyendo esto probablemente porque usted pudo haber encontrado un error como esto en Windows:
+
+Instalación de bordillo (0.7.18) con extensiones nativas 
+Gem :: Installer :: ExtensionBuildError: ERROR: Error al crear una extensión nativa de gem.
+He aquí cómo solucionarlo (Nota: Esto es suponiendo que ha instalado RailsInstaller o similar.)
+
+1) https://curl.haxx.se/download.html (Win32 7zip 7.55.1 binary	SSL	SSH	Viktor Szakáts	1.70 MB)
+   https://bintray.com/artifact/download/vszakats/generic/curl-7.55.1-win32-mingw.7z
+
+2) Descargue libcurl (bajo la sección "Win32 - Generic") y extraiga el contenido a C: \ En el momento de escribir 7.27.0 fue el último. Si descarga una versión diferente, no olvide actualizar las rutas a continuación.
+
+3) Agregue C: \ curl-7.27.0-devel-mingw32 \ bin a su ruta de acceso de Windows
+
+4) Ejecutar:
+
+gem install curb --version 0.7.18 --platform = ruby ​​- - --with-curl-lib = "C: /curl-7.27.0-devel-mingw32/bin" --with-curl-include = "C: /curl-7.27.0-devel-mingw32/include"
+
+Por cierto, esos guiones múltiples no son un error! Esa es la única manera que pude conseguir que funcione. Puede cambiar la versión para satisfacer sus necesidades. Tuve otra joya que era específicamente dependiente de la versión 0.7.18 así que elijo que en particular.
+
+
+Yo, Rafael instale esta version(0.9.4) y despues el texveloper y todo OK
+
+gem install curb --version 0.9.4 --platform=ruby -- -- --with-curl-lib="C:\curl-7.55.1-win32-mingw\bin" --with-curl-include="C:\curl-7.55.1-win32-mingw\include"
+
+gem install textveloper
+

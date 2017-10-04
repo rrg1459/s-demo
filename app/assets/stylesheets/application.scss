@@ -1,0 +1,105 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ */
+
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "font-awesome";
+@import "*";
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700);
+
+body {
+  font-family: 'Lato';
+  padding-top: 75px;
+}
+
+.margen {
+ 
+          margin-right: 50px;
+          margin-left:  50px;
+}
+
+.azul {
+    color: blue
+}
+
+/*....................................................*/
+
+$claro:   #EEEED8;
+$fondo:   #0099E5;
+$gris:    #D3D3D3;
+$oscuro:  #8A8081;
+$relleno: #D3D3D3;
+$blanco:  #ffffff;
+$negro:   #808080;
+
+input[type="checkbox"] {
+  appearance: none;
+  background-color: darken($claro, 2%);
+  border: 1px solid $oscuro;
+  border-radius: 26px;
+  box-shadow: inset 0 0 0 1px $gris;
+  cursor: pointer;
+  height: 14px;
+  position: relative;
+  transition: border .25s .15s,
+              box-shadow .25s .3s,
+              padding .25s;
+  width: 33px;
+  vertical-align: top;
+
+  &:focus {
+    outline: none;
+  }
+  
+  &:after {
+    background-color: $negro;
+    border: 1px solid $oscuro;
+    border-radius: 24px;
+    box-shadow: inset 0 -3px 3px hsla(0,0%,0%,.025),
+                0 1px 4px hsla(0,0%,0%,.15),
+                0 4px 4px hsla(0,0%,0%,.1);
+    content: '';
+    display: block;
+    height: 10px;
+    left: 1px;
+    position: absolute;
+    right: 16px;
+    top: 1px;
+    transition: border .25s .15s,
+                left .25s .1s,
+                right .15s .175s;
+  }
+  &:checked {
+    background-color: $fondo;
+    border-color: $fondo;
+    box-shadow: inset 0 0 0 13px $fondo;
+    padding-left: 18px;
+    transition: background-color .25,
+                border .25s,
+                box-shadow .25s,
+                padding .25s .15s;
+  
+    &:after {
+      border-color: $relleno;
+      background-color: $blanco;
+      left: 16px;
+      right: 1px;
+      transition: border .25s,
+                  left .15s .25s,
+                  right .25s .175s;
+    }
+  }
+}
+
+/*....................................................*/

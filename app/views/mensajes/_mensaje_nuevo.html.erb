@@ -1,0 +1,21 @@
+<%= form_tag mensajes_path(parent_id: mensaje_id), method: :post do %>
+  <div class="form-group">
+    <%= text_area_tag "mensaje[texto]", @mensaje.texto, class: "mostrar form-control", placeholder: "Escribe un mensaje hasta 160 caracteres" %>
+  </div>
+
+  <div class="form-group">
+    <%= button_tag id: "mensaje", class: "btn btn-primary" do %>
+       Guardar
+    <% end %>
+    <% largo = 0 %>
+    <% largo = @mensaje.texto.length if @mensaje.texto != nil %>
+    <% contador = 160 - largo %>
+    <div class="pull-right">
+      <span id="mensaje-count"><%= "#{contador}" %></span>
+    </div>
+  </div>
+<% end %>
+
+<div id="mensaje-error">
+  <%= render 'parciales/error_message', error_message: nil %>
+</div>

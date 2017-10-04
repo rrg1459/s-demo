@@ -1,0 +1,50 @@
+Diccionario de datos
+--------------------
+Mensaje Grupo de hasta 160 caracteres incluyendo los espacios, NO se deben usar caracteres acentuados, ni caracteres latinos en general, ni específicamente la letra ñ, ya que el sistema puede generar errores y se afectan el envío de mensajes hasta 70 caracteres.
+
+Usuario, persona con acceso a la aplicación que puede cargar contactos, grupos y mensajes. Se ve al lado del botón de cerrar, el usuario puede modificar sus datos haciendo clic en su nombre.
+
+Gestión, pestana que agrupa los procesos operativos y los temas de interés. 
+En los procesos operativos (Operaciones) se puede hacer mantenimiento (crear, mostrar, editar y borrar) a "contactos", "grupos" y "cargas de archivos".
+
+Contacto, persona cargada por un usuario con el objeto de recibir sms, estos contactos se pueden cargar manualmente o por lotes en archivo excel.
+
+Grupo, es un objeto que se usa para agrupar a los contactos por cualquier contexto u objetivo, ejemplo de grupos pueden ser: parroquia, estado, cargo, familia, lista de distribución, etc.
+
+Cargar archivo, archivo en formato excel, con extensión csv, xls, o xlsx, con dos columnas, la primera columna es para el número telefónico y la segunda para el nombre (el nombre debería tener nombre y apellido), el nombre puede estar en blanco y se acepta como válido para ser objeto de recibir mensajes por el sistema, se pueden cargar cualquier cantidad de contactos.
+
+
+En los temas de interés se puede consultar el diccionario de datos (este documento) y las premisas de la aplicación.
+
+
+sms 0/100, Cantidad de sms que se pueden envía mensualmente según plan contratado, ejemplo 0/100, quiere decir que se han enviado 0 mensajes de un total de 100 mensajes. El hacer clic en sms 0/100, se puede ver el detalle de quien desarrolló el API que comunica esta aplicación con las compañías telefónicas de los respectivos países, el tipo de plan contratado  y cuando se vence este plan.
+
+APIs, viene de API la s es por el plural, es una sigla que procede de la lengua inglesa y que literalmente dice "Application Programming Interface" (cuya traducción es Interfaz de Programación de Aplicaciones). se muestran dos tipos de API, la que está vigente de Till Mobile, que es gratuita hasta 100 mensajes y sirve solo para hacer pruebas con números de teléfonos en EEUU y la que aplica para Venezuela Blower.io, se pueden consultar planes, precios y cobertura al hace clic en los respectivos enlaces.
+
+Emoticones:
+La papelera, al hacer clic puede borrar los mensajes creados por el usuario, solo el creador del mensaje lo puede borrar. Solo se pueden eliminar aquellos mensajes que NO se han sido enviados.
+
+El teclado, , al hacer clic puede editar los mensajes creados por el usuario, solo el creador del mensaje lo puede editar. Solo se pueden editar aquellos mensajes que NO se han sido enviados.
+
+La rueda dentada, el hace clic, se pueden seleccionar los grupos de los contactos para determinar el total de contactos que recibirán el mensaje.
+
+Alcance, el total de contactos que recibirán o recibieron el mensaje.
+
+Cerrar, al hacer clic se cerrará la sesión de trabajo.
+
+
+
+ 
+Premisas
+--------
+1) Cualquier usuario puede crear un mensaje
+2) Sólo el usuario que creó el mensaje puede editarlo y/o borrarlo
+3) Se pueden editar o borrar mensajes que NO se hayan enviado
+4) Una vez borrado el mensaje no se puede recuperar
+5) Cualquier usuario puede enviar un mensaje (esto se debería poder guardar en la tabla de mensajes)
+6) Los mensajes sólo se pueden enviar una vez a su lista de contactos (contactos seleccionados por grupos)
+7) Aquellos contactos cargados masivamente y que no cumplan los requisitos mínimos para ser enviados se agregaran al archivo de errores del sistema que se puede descargar/abrir en cualquier momento, siempre y cuando exista el archivo de errores.
+8) Si el mensaje se ha enviado, la fecha que se muestra es la fecha que se envío y cuanto tiempo ha pasado
+9) Si el mensaje no se ha enviado, la fecha que se muestra es la última fecha que fue editado y cuanto tiempo ha pasado
+10) Si el mensaje NO ha sido enviado y lo creó el usuario que está en sesión, se puede ver el teclado (para editarlo) y la papelera (para borrarlo)
+11) Si el mensaje NO ha sido enviado y NO lo creó el usuario que está en sesión, sólo se puede ver la rueda dentada (para agregar contactos y/o mandarlo)

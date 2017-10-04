@@ -1,0 +1,21 @@
+// Place all the styles related to the entrada controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#mensaje-count {
+	margin-right: 10px;
+	color: $blackboard-bg;
+}
+
+#sms-count {
+	margin-right: 10px;
+	color: $blackboard-bg;
+}
+
+.stats {
+	margin-left: -5px;
+  a {
+    text-decoration: none;
+  }
+}
+

@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="col-lg-3">
+  </div>
+  <div class="col-lg-6">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="well">
+          <% if @mensaje.errors.any? %>
+            <%= render 'parciales/error_message', error_message: @mensaje.errors.full_messages.first %>
+          <% end %>  
+          <%= render 'mensaje_nuevo', mensaje_id: nil %>
+        </div>
+      </div>
+    </div>
+    <% @mensajes.each do |mensaje| %>
+      <div class="row">
+        <div class="col-lg-12">
+          <div id="feed" class="well feed">
+            <%= render(mensaje) %>
+          </div>
+        </div>
+       </div>
+    <% end %>
+  </div>
+</div>

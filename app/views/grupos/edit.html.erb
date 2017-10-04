@@ -1,0 +1,11 @@
+<div class="col-lg-3"></div>
+<div class="col-lg-6 well">
+  <h1>Editando Grupo</h1>
+  <%= render 'form', grupo: @grupo %>
+  <table>
+    <th>
+      <td> <%= button_to 'Listado de Grupos', grupos_path, :class => "btn btn-info", method: :get %></td>
+      <td> <%= button_to 'Mostrar', grupo_path, :class => "btn btn-success", method: :get %></td>
+    </th>
+  </table>
+</div>

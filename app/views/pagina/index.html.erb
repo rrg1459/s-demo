@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-lg-10 col-lg-offset-1">
+    <div class="row">
+      <div id="landing-content" class="col-lg-9">
+        <h2><b>Bienvenidos a la página de envío masivo de SMS</b></h2>
+        <br>
+        <h4>
+          Esta página está configurada para enviar SMS a través de las operadoras telefónicas en Venezuela de <%= image_tag "movilnet.jpg" %>, <%= image_tag "movistar.jpg" %> y <%= image_tag "digitel.jpg" %>.
+        </h4>
+<!--
+        <h4>
+          En el modo "demo" se puede crear una cuenta y enviar hasta <b>10 SMS gratuitos</b> a cualquier operadora, si está interesado en usar "Los Servicios" de esta página para sus requerimientos políticos, empresariales, sociales, o personales nos puede contactar por correo. 
+        </h4>
+-->
+        <h4>
+          En esta página se pueden cargar contactos manualmente (1 X 1), ó a través de un archivo excel (por lote), y se pueden configurar los grupos de contactos necesarios, según los requerimientos e intereses del usuario.
+        </h4>
+        <br>
+
+        <h4>
+          Más información y detalle, por este <strong><%= mail_to 'rrg1459@hotmail.com', 'Correo', subject: 'Información sobre envío de SMS masivo', body: 'Estoy interesado en obtener más información sobre esta página...' %></strong>
+        </h4>
+        <br>
+        <h2><u><a href="usar_sms" target="_blank" >¿Porque usar un servicio de SMS?</a></u></h2>
+      </div>
+
+      <div class="col-lg-3">
+        <div class="row">
+          <div class="well">
+            <%= render "devise/sessions/form" %>
+            <%= link_to "Olvidaste tu contraseña?", new_password_path(:user) %>
+          </div>
+        </div>
+        <% if !User.take %>
+          <div class="row">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">Crea una Cuenta</h3>
+              </div>
+              <div class="panel-body">
+                <%= render "devise/registrations/form" %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h5><i>
+Parque Nacional Médanos de Coro<br>
+Península de Paraguaná, Estado de Falcón
+</i></h5>

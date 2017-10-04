@@ -1,0 +1,39 @@
+
+<div class="col-lg-4 col-lg-offset-4">
+  <div class="well">
+    <h4><b>Crear Cuenta</b></h4>
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2">
+
+<%= form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => { :method => :put } do |f| %>
+  <% if resource.errors.any? %>
+    <%= render 'parciales/error_message', error_message: resource.errors.full_messages.first %>
+    <!%= render 'parciales/error_message', error_message: resource.errors.first[1] %>
+  <% end %>
+  <div class="form-group">
+    <%= f.text_field :name, class: "mostrar form-control", placeholder: "Nombre Completo" %>
+  </div>
+  <div class="form-group">
+    <%= f.text_field :username, class: "mostrar form-control", placeholder: "Usuario" %>
+  </div>
+  <div class="form-group">
+    <%= f.password_field :password, class: "mostrar form-control", placeholder: "Contraseña" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.password_field :password_confirmation, class: "mostrar form-control", placeholder: "Confirmar contraseña" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.submit 'Crear', class: "btn btn-warning" %>
+  </div>
+<% end %>
+<%- if controller_name != 'sessions' %>
+  <%= link_to "Entrar", new_session_path(resource_name) %><br />
+<% end -%>
+
+      </div>
+    </div>
+  </div>
+</div>
+

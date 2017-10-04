@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<!-- saved from url=(0071)https://www.sitepoint.com/save-multiple-checkbox-values-database-rails/ -->
+        
+<!-- This site is optimized with the Yoast SEO plugin v5.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<h4>How to Save Multiple Checkbox Values to a Database in Rails — SitePoint</h4>
+
+
+
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+
+    <style>
+  .t-color { color: #EB5745 }
+  a.t-color:hover,
+  button.t-color:hover { color: #B84435 }
+
+  .t-bg { background-color: #EB5745 }
+  a.t-bg:hover,
+  button.t-bg:hover { background-color: #B84435}
+
+  .t-border { border-color: #EB5745 }
+  a.t-border:hover,
+  button.t-border:hover { border-color: #B84435 }
+
+  .t-bg-dark { background-color: #B84435 }
+
+  .t-list li:before { background-color: #EB5745; }
+
+  .t-p-pop-bg { background-color: #1a9b9e }
+  a.t-p-pop-bg:hover,
+  button.t-p-pop-bg:hover { background-color: #018285}
+</style>
+</head>
+ 
+
+        <div class="ArticleCopy language-bash">
+      <div class="l-mt3 l-mh5--2col">
+      <p>Imagine you have a form in your Rails app which is backed by an ActiveRecord model. In this form there are a bunch of checkboxes, the values of which you want to persist to your database. How do you go about handling this scenario?</p>
+<p>As ever, the code for this article can be found on <a href="https://github.com/sitepoint-editors/checkbox-demo">our GitHub repo</a>.</p>
+<h2 id="the-anti-pattern">The Anti-Pattern</h2>
+<p>Well, an initial reaction might be to create a string column in the database to hold all of the checkbox data. You could then use a <code class=" language-bash">before_save</code> hook in the model to build the string and use <code class=" language-bash">check_box_tag</code> helpers in the view to display the check boxes.</p>
+<p>Let’s  have a quick look at what this might look like. To do so, we’ll create a demo app into which you can enter the name of a professor and select their various areas of expertise.</p>
+<pre class=" language-bash"><code class=" language-bash">rails new cb-demo <span class="token operator">&amp;&amp;</span> <span class="token function">cd</span> cb-demo
+rails g scaffold professor name:string expertise:string
+rake db:migrate
+</code></pre>
+<p>After that open up <code class=" language-bash">/app/views/professors/_form.html.erb</code> and replace:</p>
+<pre class=" language-ruby"><code class=" language-ruby"><span class="token operator">&lt;</span><span class="token string">%= f.label :expertise %&gt;&lt;br&gt;
+&lt;%=</span> f<span class="token punctuation">.</span>text_field <span class="token symbol">:expertise</span> <span class="token operator">%</span><span class="token operator">&gt;</span>
+</code></pre>
+<p>with:</p>
+<pre class=" language-ruby"><code class=" language-ruby"><span class="token operator">&lt;</span><span class="token string">%= label_tag 'expertise_physics', 'Physics' %&gt;
+&lt;%=</span> check_box_tag <span class="token string">'professor[expertise][]'</span><span class="token punctuation">,</span> <span class="token string">'Physics'</span><span class="token punctuation">,</span> <span class="token function">checked</span><span class="token punctuation">(</span><span class="token string">'Physics'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> id<span class="token punctuation">:</span> <span class="token string">'expertise_physics'</span> <span class="token string">%&gt;
+
+&lt;%= label_tag 'expertise_maths', 'Maths' %&gt;</span>
+<span class="token operator">&lt;</span><span class="token operator">%</span><span class="token operator">=</span> check_box_tag <span class="token string">'professor[expertise][]'</span><span class="token punctuation">,</span> <span class="token string">'Maths'</span><span class="token punctuation">,</span> <span class="token function">checked</span><span class="token punctuation">(</span><span class="token string">'Maths'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> id<span class="token punctuation">:</span> <span class="token string">'expertise_maths'</span> <span class="token operator">%</span><span class="token operator">&gt;</span>
+</code></pre>
+<p>In <code class=" language-bash">/app/controllers/professors_controller.rb</code> alter:</p>
+<pre class=" language-ruby"><code class=" language-ruby">params<span class="token punctuation">.</span><span class="token keyword">require</span><span class="token punctuation">(</span><span class="token symbol">:professor</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">permit</span><span class="token punctuation">(</span><span class="token symbol">:name</span><span class="token punctuation">,</span> <span class="token symbol">:expertise</span><span class="token punctuation">)</span>
+</code></pre>
+<p>to:</p>
+<pre class=" language-ruby"><code class=" language-ruby">params<span class="token punctuation">.</span><span class="token keyword">require</span><span class="token punctuation">(</span><span class="token symbol">:professor</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">permit</span><span class="token punctuation">(</span><span class="token symbol">:name</span><span class="token punctuation">,</span> expertise<span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code></pre>
+<p>Then in <code class=" language-bash">/app/models/professor.rb</code> add:</p>
+<pre class=" language-ruby"><code class=" language-ruby">before_save <span class="token keyword">do</span>
+  <span class="token keyword">self</span><span class="token punctuation">.</span>expertise<span class="token punctuation">.</span>gsub<span class="token operator">!</span><span class="token punctuation">(</span><span class="token operator">/</span><span class="token punctuation">[</span>\<span class="token punctuation">[</span>\<span class="token punctuation">]</span>\<span class="token string">"]/, "</span><span class="token string">") if attribute_present?("</span>expertise"<span class="token punctuation">)</span>
+<span class="token keyword">end</span>
+</code></pre>
+<p>And in <code class=" language-bash">/app/helpers/professors_helper.rb</code> add:</p>
+<pre class=" language-ruby"><code class=" language-ruby"><span class="token keyword">def</span> <span class="token function">checked</span><span class="token punctuation">(</span>area<span class="token punctuation">)</span>
+  <span class="token variable">@professor</span><span class="token punctuation">.</span>expertise<span class="token punctuation">.</span><span class="token keyword">nil</span><span class="token operator">?</span> <span class="token operator">?</span> <span class="token keyword">false</span> <span class="token punctuation">:</span> <span class="token variable">@professor</span><span class="token punctuation">.</span>expertise<span class="token punctuation">.</span><span class="token function">match</span><span class="token punctuation">(</span>area<span class="token punctuation">)</span>
+<span class="token keyword">end</span>
+</code></pre>
+<p>Finally, run <code class=" language-bash">rails s</code> and navigate to <a href="http://localhost:3000/professors">http://localhost:3000/professors</a></p>
+<p>And as you can see, it works. But unfortunately, that’s about all it does. Saving checkbox data to the database this way will just cause problems further down the road. For example as the number of professors and the number of areas of expertise grow, queries to find out which profs are assosciated with which areas will become a horrific mess.</p>
+<p>Also what happens if you want to delete or rename an area of expertise? In this case you’d have to manipulate the database directly, which is almost never a good thing (not to mention time consuming and error-prone).</p>
+<h2 id="the-right-way">The Right Way</h2>
+<p>Luckily, there is a much better way to accomplish this — namely by moving <code class=" language-bash">Expertise</code> into its own model and declaring a <code class=" language-bash">has_and_belongs_to_many</code> association between <code class=" language-bash">Expertise</code> and <code class=" language-bash">Professor</code>. This will create a direct many-to-many connection between the models (by means of a <a href="https://en.wikipedia.org/wiki/Junction_table">join table</a> — a database table that maps two or more tables together by referencing the primary keys of each data table).</p>
+<p>As <a href="http://guides.rubyonrails.org/association_basics.html#the-has-and-belongs-to-many-association">the Rails guide states</a>:</p>
+<blockquote>
+<p>A has_and_belongs_to_many association creates a direct many-to-many connection with another model, with no intervening model. For example, if your application includes assemblies and parts, with each assembly having many parts and each part appearing in many assemblies, you could declare the models this way:</p>
+</blockquote>
+<p>You can visualize it like so (where <code class=" language-bash">expertises_professors</code> is the join table):</p>
+<p><img src="./How to Save Multiple Checkbox Values to a Database in Rails — SitePoint_files/1441999205habtm-diagram.png" alt="Diagram illustrating HABTM association" width="650" height="450" class="aligncenter size-full wp-image-114810"></p>
+<p>The join table does not have a primary key or a model associated with it and must be manually generated.</p>
+<p>To demonstrate this, we’ll recreate the same small project as before:</p>
+<pre class=" language-bash"><code class=" language-bash">rails new cb-demo-1 <span class="token operator">&amp;&amp;</span> <span class="token function">cd</span> cb-demo-1
+rails g scaffold professor name:string
+rails g scaffold expertise name:string
+rails g migration CreateJoinTableExpertiseProfessor expertise professor
+rake db:migrate
+</code></pre>
+<p>This will create the necessary models and database tables. You might also notice the generator which produces the join table for us (provided <code class=" language-bash">JoinTable</code> is part of the name). Nifty, huh?</p>
+<p>Next we need to declare the associations in the respective models:</p>
+<p>In <code class=" language-bash">/app/models/professor.rb</code> add:</p>
+<pre class=" language-ruby"><code class=" language-ruby">has_and_belongs_to_many <span class="token symbol">:expertises</span>
+</code></pre>
+<p>In <code class=" language-bash">/app/models/expertise.rb</code> add:</p>
+<pre class=" language-ruby"><code class=" language-ruby">has_and_belongs_to_many <span class="token symbol">:professors</span>
+</code></pre>
+<p>Declaring the <code class=" language-bash">has_and_belongs_to_many</code> association puts a bunch of new methods at our fingertips, for example: <code class=" language-bash">Professor<span class="token comment" spellcheck="true">#expertises</span></code>, <code class=" language-bash">Professor<span class="token comment" spellcheck="true">#expertises.find(id)</span></code>, <code class=" language-bash">Professor<span class="token comment" spellcheck="true">#expertises&lt;&lt;</span></code> and <code class=" language-bash">Professor<span class="token comment" spellcheck="true">#expertises.delete</span></code>. You can read more about these <a href="http://apidock.com/rails/ActiveRecord/Associations/ClassMethods/has_and_belongs_to_many">in the api documentation</a>.</p>
+<p>After that we need to whitelist <code class=" language-bash">expertise_ids</code> in <code class=" language-bash">/app/controllers/professors_controller.rb</code>:</p>
+<pre class=" language-ruby"><code class=" language-ruby">params<span class="token punctuation">.</span><span class="token keyword">require</span><span class="token punctuation">(</span><span class="token symbol">:professor</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">permit</span><span class="token punctuation">(</span><span class="token symbol">:name</span><span class="token punctuation">,</span> expertise_ids<span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code></pre>
+<p>Finally add the following to <code class=" language-bash">/app/views/professors/_form.html.erb</code>:</p>
+<pre class=" language-ruby"><code class=" language-ruby"><span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"field"</span><span class="token operator">&gt;</span>
+  <span class="token operator">&lt;</span><span class="token string">%= f.label "Area of Expertise" %&gt;&lt;br /&gt;
+  &lt;%=</span> f<span class="token punctuation">.</span>collection_check_boxes <span class="token symbol">:expertise_ids</span><span class="token punctuation">,</span> <span class="token constant">Expertise</span><span class="token punctuation">.</span>all<span class="token punctuation">,</span> <span class="token symbol">:id</span><span class="token punctuation">,</span> <span class="token symbol">:name</span> <span class="token keyword">do</span> <span class="token operator">|</span>b<span class="token operator">|</span> <span class="token string">%&gt;
+    &lt;div class="collection-check-box"&gt;</span>
+      <span class="token operator">&lt;</span><span class="token string">%= b.check_box %&gt;
+      &lt;%=</span> b<span class="token punctuation">.</span>label <span class="token string">%&gt;
+    &lt;/div&gt;</span>
+  <span class="token operator">&lt;</span><span class="token operator">%</span> <span class="token keyword">end</span> <span class="token string">%&gt;
+&lt;/div&gt;</span>
+</code></pre>
+<p>Here we are making use of a special form options helper, which was introduced in Rails 4, called <a href="http://apidock.com/rails/v4.0.2/ActionView/Helpers/FormOptionsHelper/collection_check_boxes">collection_check_boxes</a>. It behaves similarly to <code class=" language-bash">collection_select</code>, but instead of a single select field it renders a checkbox and a label for each item in the collection.</p>
+<p>You can also customize the output (as we are doing here) by passing it a block. The block will be called with a special builder object that itself has a handful of special methods.</p>
+<p>And that’s really all there is to it. If you fire up WEBrick and navigate to <a href="http://localhost:3000/expertises">http://localhost:3000/expertises</a>, you’ll be able to enter a few areas of expertise and save them to the database. After that, you can head to <a href="http://localhost:3000/professors">http://localhost:3000/professors</a> and everything should work as expected — that is, you’ll be able to create professors and assign them to whichever areas of expertise you created previously. After that, if you try and edit a professor, you’ll see that the areas of expertise have been persisted.</p>
+<div class="widget maestro maestro-content-type-html hide-for-tablet-SP hide-for-mobile-SP" id="maestro-636"><div class="SP_stripMobile" style="width:100%;margin: 0 auto; max-width: 640px;"><span id="adBox" class="f-small f-light f-center">--ADVERTISEMENT--</span></div>
+
+
+<script id="aniviewJS" src="https://play.aniview.com/5858ed930b8ee8851941a7bb/59627b0528a0616e231692a2/SitepointPMP.js"></script><script>
+var el = document.getElementById('aniBox');
+var adBox = document.getElementById('adBox');
+// create an observer instance
+var observer = new MutationObserver(function(mutations) {
+  mutations.forEach(function(mutation) {
+    if(mutation.attributeName == 'style'){
+      var s = el.getAttribute('style');
+      if(s.search('height: 360px') !=  -1) {
+        adBox.style = 'display: block';
+      }
+      else {
+        adBox.style = 'display: none';
+      }
+}
+  });    
+});
+
+// configuration of the observer:
+var config = { attributes: true, attributeFilter: ['style']};
+ 
+// pass in the target node, as well as the observer options
+observer.observe(el, config);
+</script><script>ga('SitePointPlugin:observeImpressions', 'maestro-636')</script></div><h2 id="everyones-a-winner-baby">Everyone’s a Winner, Baby!</h2>
+<p>With things set up this way, ascertaining which professors are associated with which areas of expertise is a doddle:</p>
+<pre class=" language-bash"><code class=" language-bash">rails c
+e <span class="token operator">=</span> Expertise.first
+
+e.professors
+<span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token comment" spellcheck="true">#&lt;ActiveRecord::Associations::CollectionProxy [#&lt;Professor id: 1, name: "Jim", created_at: "2015-08-20 20:04:51", updated_at: "2015-08-20 20:04:51"&gt;]&gt;</span>
+
+e.professors.count
+<span class="token operator">=</span><span class="token operator">&gt;</span> 1
+</code></pre>
+<p>Sorted!</p>
+<p>And it’s quite straight-forward to add, rename or delete areas of expertise, via our simple web interface. Which brings me on to a final point: the chances are that if you delete an area of expertise, then you probably no longer want any professors to be associated with it. With our original method, this would have been messy to implement, however with this approach, all we need do is set <code class=" language-bash">dependent: :destroy</code> on the association:</p>
+<p>In <code class=" language-bash">/app/models/expertise.rb</code> add:</p>
+<pre class=" language-ruby"><code class=" language-ruby">has_and_belongs_to_many <span class="token symbol">:professors</span><span class="token punctuation">,</span> dependent<span class="token punctuation">:</span> <span class="token symbol">:destroy</span>
+</code></pre>
+<p>Now, if you delete an area of expertise, no professors will be associated with it. The same thing obviously works the other way round.</p>
+<h2 id="taking-it-further">Taking it Further</h2>
+
+<p>To further demonstrate the flexibility of this method, let’s finish with a demo showing how to use our checkboxes to filter database search results. To do that we’ll need some kind of search functionality for which we’ll use the <a href="https://github.com/activerecord-hackery/ransack">Ransack gem</a>. This gem provides excellent helpers and builders for handling searches on your models. To find out more about Ransack, check out: <a href="http://www.sitepoint.com/advanced-search-ransack/">Advanced Search with Ransack</a></p>
+<p>This demo builds on the code from the previous demo.</p>
+<p>First add Ransack to your gemfile:</p>
+<pre class=" language-ruby"><code class=" language-ruby">gem <span class="token string">'ransack'</span>
+</code></pre>
+<p>and run:</p>
+<pre class=" language-bash"><code class=" language-bash">bundle <span class="token function">install</span>
+</code></pre>
+<p>With that done, we’ll need to alter the <code class=" language-bash">index</code> action in <code class=" language-bash">ProfessorsController</code>, which is where we want to add our search functionality. We can make a search object here by calling <code class=" language-bash">Professor.search</code> and passing in the <code class=" language-bash">q</code> parameter, which will contains a hash of the search parameters submitted by the user. To get any professors matching our search, we can just call <code class=" language-bash">result</code> on this object. Specifying <code class=" language-bash">distinct: <span class="token boolean">true</span></code> avoids returning duplicate rows.</p>
+<p>In <code class=" language-bash">/app/controllers/professors_controller.rb</code>:</p>
+<pre class=" language-bash"><code class=" language-bash">def index
+  @search <span class="token operator">=</span> Professor.search<span class="token punctuation">(</span>params<span class="token punctuation">[</span>:q<span class="token punctuation">]</span><span class="token punctuation">)</span>
+  @professors <span class="token operator">=</span> @search.result<span class="token punctuation">(</span>distinct: true<span class="token punctuation">)</span>
+end
+</code></pre>
+<p>Next we need to make the search form. Ransack provides a form builder for doing this called <code class=" language-bash">search_form_for</code>. Just like Rails <code class=" language-bash">form_for</code> this method takes a block in which we can define the fields we want to search against. Naming the text field in the form <code class=" language-bash">:name_cont</code> means that Ransack will search for professors whose name contains the value entered into this field. </p>
+<pre class=" language-ruby"><code class=" language-ruby"><span class="token operator">&lt;</span><span class="token string">%= search_form_for @search do |f| %&gt;
+  &lt;%=</span> f<span class="token punctuation">.</span>label <span class="token symbol">:name_cont</span><span class="token punctuation">,</span> <span class="token string">"Name contains"</span> <span class="token string">%&gt;
+  &lt;%= f.text_field :name_cont %&gt;</span>
+<span class="token operator">&lt;</span><span class="token operator">%</span> <span class="token keyword">end</span> <span class="token operator">%</span><span class="token operator">&gt;</span>
+</code></pre>
+<p>Next we need to add the ability to filter by area of expertise:</p>
+<pre class=" language-ruby"><code class=" language-ruby"><span class="token operator">&lt;</span><span class="token string">%= f.label "Area of Expertise" %&gt;&lt;br /&gt;
+&lt;%=</span> f<span class="token punctuation">.</span>collection_check_boxes <span class="token symbol">:expertises_id_in_any</span><span class="token punctuation">,</span> <span class="token constant">Expertise</span><span class="token punctuation">.</span>all<span class="token punctuation">,</span> <span class="token symbol">:id</span><span class="token punctuation">,</span> <span class="token symbol">:name</span> <span class="token keyword">do</span> <span class="token operator">|</span>b<span class="token operator">|</span> <span class="token string">%&gt;
+  &lt;div class="collection-check-box"&gt;</span>
+    <span class="token operator">&lt;</span><span class="token string">%= b.check_box %&gt;
+    &lt;%=</span> b<span class="token punctuation">.</span>label <span class="token string">%&gt;
+  &lt;/div&gt;</span>
+<span class="token operator">&lt;</span><span class="token operator">%</span> <span class="token keyword">end</span> <span class="token operator">%</span><span class="token operator">&gt;</span>
+</code></pre>
+<p>You can see that we are again making use of the <a href="http://apidock.com/rails/v4.0.2/ActionView/Helpers/FormOptionsHelper/collection_check_boxes">collection_check_boxes form helper</a>, but this time we are passing in <code class=" language-bash">:expertises_id_in_any</code> as a second parameter. This is what Ransack refers to as a <em>predicate</em> which it will use in its search query when determining what information to match. You can read more about predicates in <a href="https://github.com/activerecord-hackery/ransack/wiki/Basic-Searching">the Ransack wiki</a>.</p>
+<p>Here’s the complete form. Add this to <code class=" language-bash">/app/views/professors/index.html.erb</code>:</p>
+<pre class=" language-ruby"><code class=" language-ruby"><span class="token operator">&lt;</span>fieldset <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"search-field"</span><span class="token operator">&gt;</span>
+  <span class="token operator">&lt;</span>legend<span class="token operator">&gt;</span><span class="token constant">Search</span> <span class="token constant">Our</span> <span class="token constant">Database</span><span class="token operator">&lt;</span><span class="token operator">/</span>legend<span class="token operator">&gt;</span>
+  <span class="token operator">&lt;</span><span class="token string">%= search_form_for @search do |f| %&gt;
+    &lt;div class=</span><span class="token string">"field"</span><span class="token operator">&gt;</span>
+      <span class="token operator">&lt;</span><span class="token string">%= f.label :name_cont, "Name contains" %&gt;
+      &lt;%=</span> f<span class="token punctuation">.</span>text_field <span class="token symbol">:name_cont</span> <span class="token string">%&gt;
+    &lt;/div&gt;</span>
+
+    <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"field"</span><span class="token operator">&gt;</span>
+      <span class="token operator">&lt;</span><span class="token string">%= f.label "Area of Expertise" %&gt;&lt;br /&gt;
+      &lt;%=</span> f<span class="token punctuation">.</span>collection_check_boxes <span class="token symbol">:expertises_id_in_any</span><span class="token punctuation">,</span> <span class="token constant">Expertise</span><span class="token punctuation">.</span>all<span class="token punctuation">,</span> <span class="token symbol">:id</span><span class="token punctuation">,</span> <span class="token symbol">:name</span> <span class="token keyword">do</span> <span class="token operator">|</span>b<span class="token operator">|</span> <span class="token string">%&gt;
+        &lt;div class="collection-check-box"&gt;</span>
+          <span class="token operator">&lt;</span><span class="token string">%= b.check_box %&gt;
+          &lt;%=</span> b<span class="token punctuation">.</span>label <span class="token string">%&gt;
+        &lt;/div&gt;</span>
+      <span class="token operator">&lt;</span><span class="token operator">%</span> <span class="token keyword">end</span> <span class="token string">%&gt;
+    &lt;/div&gt;</span>
+
+    <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"actions"</span><span class="token operator">&gt;</span><span class="token operator">&lt;</span><span class="token operator">%</span><span class="token operator">=</span> f<span class="token punctuation">.</span>submit <span class="token string">"Search"</span> <span class="token string">%&gt;&lt;/div&gt;</span>
+  <span class="token operator">&lt;</span><span class="token operator">%</span> <span class="token keyword">end</span> <span class="token string">%&gt;
+&lt;/fieldset&gt;</span>
+</code></pre>
+<p>While we’re at it, we can also alter the table (in the same file) to include a professor’s areas of expertise:</p>
+<pre class=" language-ruby"><code class=" language-ruby"><span class="token operator">&lt;</span>table<span class="token operator">&gt;</span>
+  <span class="token operator">&lt;</span>thead<span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span>tr<span class="token operator">&gt;</span>
+      <span class="token operator">&lt;</span>th<span class="token operator">&gt;</span><span class="token constant">Name</span><span class="token operator">&lt;</span><span class="token operator">/</span>th<span class="token operator">&gt;</span>
+      <span class="token operator">&lt;</span>th<span class="token operator">&gt;</span><span class="token constant">Expertises</span><span class="token operator">&lt;</span><span class="token operator">/</span>th<span class="token operator">&gt;</span>
+      <span class="token operator">&lt;</span>th colspan<span class="token operator">=</span><span class="token string">"3"</span><span class="token operator">&gt;</span><span class="token operator">&lt;</span><span class="token operator">/</span>th<span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>tr<span class="token operator">&gt;</span>
+  <span class="token operator">&lt;</span><span class="token operator">/</span>thead<span class="token operator">&gt;</span>
+
+  <span class="token operator">&lt;</span>tbody<span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span><span class="token operator">%</span> <span class="token variable">@professors</span><span class="token punctuation">.</span><span class="token keyword">each</span> <span class="token keyword">do</span> <span class="token operator">|</span>professor<span class="token operator">|</span> <span class="token string">%&gt;
+      &lt;tr&gt;</span>
+        <span class="token operator">&lt;</span>td<span class="token operator">&gt;</span><span class="token operator">&lt;</span><span class="token string">%= professor.name %&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;%=</span> professor<span class="token punctuation">.</span>expertises<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token operator">&amp;</span><span class="token symbol">:name</span><span class="token punctuation">)</span><span class="token punctuation">.</span>sort<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">", "</span><span class="token punctuation">)</span> <span class="token string">%&gt;&lt;/td&gt;</span>
+        <span class="token operator">&lt;</span>td<span class="token operator">&gt;</span><span class="token operator">&lt;</span><span class="token string">%= link_to 'Show', professor %&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;%=</span> link_to <span class="token string">'Edit'</span><span class="token punctuation">,</span> <span class="token function">edit_professor_path</span><span class="token punctuation">(</span>professor<span class="token punctuation">)</span> <span class="token string">%&gt;&lt;/td&gt;</span>
+        <span class="token operator">&lt;</span>td<span class="token operator">&gt;</span><span class="token operator">&lt;</span><span class="token operator">%</span><span class="token operator">=</span> link_to <span class="token string">'Destroy'</span><span class="token punctuation">,</span> professor<span class="token punctuation">,</span> method<span class="token punctuation">:</span> <span class="token symbol">:delete</span><span class="token punctuation">,</span> data<span class="token punctuation">:</span> <span class="token punctuation">{</span> confirm<span class="token punctuation">:</span> <span class="token string">'Are you sure?'</span> <span class="token punctuation">}</span> <span class="token string">%&gt;&lt;/td&gt;</span>
+      <span class="token operator">&lt;</span><span class="token operator">/</span>tr<span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span><span class="token operator">%</span> <span class="token keyword">end</span> <span class="token string">%&gt;
+  &lt;/tbody&gt;</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>table<span class="token operator">&gt;</span>
+</code></pre>
+<p>Now we can search for professors by name and filter them by their areas of expertise. Can you imagine how complicated this would have been if had the checkbox values stored in a string column in the database? </p>
+<p><strong>Note</strong>: a slight caveat is that Ransack doesn’t produce the correct results for <code class=" language-bash">_all</code> queries on a HABTM association. In the above example <code class=" language-bash">expertises_id_in_all</code> would return an empty result set (meaning you cannot match only those professors whose area of expertise corresponds exactly to the boxes you have checked). For more information on this, you can read <a href="http://stackoverflow.com/questions/11619246/rails-3-1-ransack-habtm">this Stackoverflow thread</a> and <a href="https://github.com/activerecord-hackery/ransack/issues/112">this issue on the project’s homepage</a>.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>With that, I hope I have demonstrated how to correctly store checkbox values in a database in Rails and the numerous of advantages this approach brings.</p>
+<p>If you have any questions or comments, I’d be glad to hear them below and don’t forget, the code for this article can be found on <a href="https://github.com/sitepoint-editors/checkbox-demo">our GitHub repo</a>.</p>
+
+      <div class="Article_authorBio l-mv4 t-bg-white m-border l-pa3">
+        <div class="l-d-f l-pt3">
+          <a class="l-s5 l-pa0 l-mr3 l-round l-o-h" href="https://www.sitepoint.com/author/jhibbard/">
+            <img src="./How to Save Multiple Checkbox Values to a Database in Rails — SitePoint_files/1398169274jim-96x96.png" width="96" height="96" alt="James Hibbard" class="avatar avatar-96 wp-user-avatar wp-user-avatar-96 alignnone photo">          </a>
+          <div class="f-lh-title">
+            <div class="f-c-grey-300">Meet the author</div>
+            <div class="f-large">
+              <a class="f-bold f-c-grey-500" href="https://www.sitepoint.com/author/jhibbard/">
+                James Hibbard              </a>
+              <a class="f-c-grey-500 l-mh1" target="_blank" href="https://twitter.com/jchibbard"><i class="fa fa-twitter"></i></a>            </div>
+          </div>
+        </div>
+        <div class="f-light f-lh-copy l-mt3">I'm a web developer currently living in the sunny north of Germany. I enjoy coding in both JavaScript and Ruby and can often be found in SitePoint's JavaScript forum. When I'm not coding, I enjoy running.</div>
+      </div>
+            
+      </div>
+    </div>
+        </div>
+            </div>
+            
+
+</body></html>

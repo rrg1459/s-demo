@@ -1,0 +1,27 @@
+   01 mejorar logica en el modelo mensaje en buscar la informacion (quitar el each)
+ok 02 agregar que mensajes se ha enviado a un contacto en el sistema
+   03 agregar que mensajes ha enviado un contacto borrado
+ok 04 agregar que se pueda descargar la bd de contactos en un archivo exel
+ok 05 ver que correo aparece cuando se manda un correo en heroku
+ok 06 probar envio de mensaje por lista
+
+ok   crear sms directo
+ok   al momento de cargar un archivo qwue diga cuatos contactos se cargaron y cuantos dieron error
+ok   agregar (hacer clic sobre el grupo para editar)
+ok   07 agregar logica para restar del saldo y del demo
+ok   08 quitar titulos cuando el grupo no tenga contactos
+ok   09 quitar titulos cuando el contacto no tenga grupos
+*******************************************************
+11 cambiar el name por username en la vistas de los mensajes
+
+}2
+"1) validar que solo el primer usuario pueda invitar, 2) validar que si hay por lo menos un usuairo NO se vea la pagina der registro y quitar registrable de devise, 3) se agrega archivo en aaa demo_usuarioFinal.rb para ver facilmente que se cambia en las aplicaciones de usuario final"
+
+
+*******************************************************
+
+git add -A
+git commit -m "3er commit se cambia mensaje de la pagina index"
+
+git push heroku master
+

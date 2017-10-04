@@ -1,0 +1,10 @@
+/*....................................................*/
+div:after {
+    background-image : attr(data-image url);
+    /* other CSS styling */
+    background-size:cover; 
+background-size:2% 2%;
+background-repeat:repeat;
+height:100%;
+}
+/*....................................................*/

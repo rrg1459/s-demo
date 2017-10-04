@@ -1,0 +1,60 @@
+<div class="col-lg-3"></div>
+<div class="col-lg-6 well">
+  <p>
+    <h4><center><strong><%= "Detalle del mensaje" %></strong></center></h4>
+  </p>
+    <div class="mostrar alert alert-danger alert-dismissable">
+      <button type="button" class="close" ></button>
+      <%= @mensaje.texto %>
+    </div> 
+    <% largo = @mensaje.texto.length %>
+    <div class="pull-right"> 
+      <span id="mensaje-count"><%= "#{largo} caracteres" %></span>
+    </div>
+    <% nombre = @mensaje.user.name.split(" ") %>
+    <h5><%= "Creado por #{nombre[0].capitalize} el " %><strong><%= @mensaje.created_at.strftime("%d %b %Y %I:%M %p") %></strong></h5>
+    <% if @mensaje.f_enviado %>
+      <h5><%= "Enviado por #{@enviado_por[0].capitalize} el " %><strong><%= @mensaje.f_enviado.strftime("%d %b %Y %I:%M %p") %></strong></h5>
+    <% end %>
+    <br>
+    <% if @total == 0 %>
+      <center><h4><%= "Se han borrado todos los contactos enviados a este mensaje" %></h4><br></center> 
+    <% else %>
+      <% num = @mensaje.cantidad_contactos - @total %>
+      <% if num > 0 %>
+        <% n = 'n'; s = 's'; s, n = '' if num == 1 %>
+        <h5><u><%= "Se ha#{n} borrado #{num} contacto#{s} a este mensaje" %></u></h5><br>
+      <% end %>
+      <% if @mensaje.cantidad_contactos == 1 %>
+        <h5><%= "Detalle del contacto" %></h5><br>
+      <% else %>
+        <h5><%= "Lista de los #{@mensaje.cantidad_contactos} contactos" %></h5><br>
+      <% end %>
+      <h5><%= "(Se puede ver detalle del contacto al hacer CLIC en el número o en el nombre)" %></h5>
+      <table>
+        <thead>
+          <tr>
+            <th style="text-align: center" >Numero</th>
+            <th style="text-align: center" >Nombre</th>
+            <th style="text-align: center" >Todos los grupos de este contacto</th>
+            <th colspan="3"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @contactos.each do |contacto| %>
+            <tr>
+              <td><%= link_to "(0#{contacto.numero[0,3]})#{contacto.numero[3,3]}-#{contacto.numero[6,7]}", contacto %></td>
+              <td><%= link_to contacto.nombre, contacto %></td>
+              <td><%= contacto.grupos.map(&:nombre).sort.join(", ") %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <br><br>
+    <% end %>
+  <table>
+  <th>
+     <td> <%= button_to 'Pagina Principal', '/', :class => "btn btn-default", method: :get %></td>
+  </th>
+  </table>
+</div>

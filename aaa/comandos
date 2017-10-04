@@ -1,0 +1,238 @@
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+\\\\\\\\\\\\\\\\\\H E R O K U\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+git add -A
+git commit -am "Se  empieza la traduccion 01"
+
+git push heroku  master
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+git push heroku -f master
+git remote add origin https://github.com/rrg1459/sms-ven.git
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+
+b1eH7fYPyVgC01vLCnc0
+git add -A
+git commit -m "cambio de narativa en terminos y condiciones y en la pagina index"
+git push heroku master
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+\\\\\\\\\\\\\G I T   H U B\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+git init
+git fetch git@github.com:rrg1459/mensajes.git
+git pull git@github.com:rrg1459/mensajes.git
+git add -A
+git commit -m "se cambia longitud de password de 6 a 16 caracteres"
+git remote add origin https://github.com/rrg1459/mensajes.git
+git remote add origin git@github.com:rrg1459/mensajes.git
+git push -u origin -f master
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+
+# clave de busqueda xxxmodeloproductocarrito
+
+
+
+/////////////////////////////////////////
+git config http.postBuffer 524288000
+heroku git:clone -a sms-ven
+/////////////////////////////////////////
+
+
+
+heroku restart -a sms-ven
+heroku run rails console
+
+heroku pg:psql --app sms-ven
+---------------------------------
+heroku
+
+
+heroku apps --all		para ver todas las aplicaciones
+heroku apps:destroy -app xxx    borrar la aplicacion xxx
+$ heroku apps:rename newname
+
+heroku apps:destroy -app safe-refuge-26378
+Open app More 
+
+
+
+
+
+run rake db:version
+heroku pg:info
+
+https://devcenter.heroku.com/articles/heroku-postgresql#using-the-cli
+
+heroku pg:psql (para entrar a la consola de postgres
+heroku pg:psql --app sms-demo
+
+
+heroku restart -a app-name
+
+heroku run rake db:migrate (para migrar las BD y se levante en el servidor de heroku
+
+
+rails g model Sm desarrollador:string enlace:string plan:string cuota:integer usado:integer activo:boolean f_vencimiento:datetime
+
+rails g model Cupo user_id:integer usado:integer total:integer
+
+INSERT INTO cupos(user_id, created_at, updated_at) SELECT 999, "16-08-2017 16:25", "16-08-2017 16:25";
+
+
+
+INSERT INTO sms(desarrollador, plan, cuota, usado, activo, created_at, updated_at) SELECT "Blower.io", "Try", 3, 0, "false", "16-08-2017 16:25", "16-08-2017 16:25";
+
+rails g model Sm desarrollador:string enlace:string plan:string cuota:integer usado:integer activo:boolean f_vencimiento:datetime
+
+sqlite3
+INSERT INTO sms(desarrollador, plan, cuota, usado, activo, f_vencimiento, created_at, updated_at) SELECT "Till mobile", "Free", 100, 5, "true", "16-08-2017 16:25", "16-08-2017 16:25", "16-08-2017 16:25";
+INSERT INTO sms(desarrollador, plan, cuota, usado, activo, created_at, updated_at) SELECT "Blower.io", "Try", 3, 0, "false", "16-08-2017 16:25", "16-08-2017 16:25";
+
+postgrest
+INSERT INTO sms(desarrollador, plan, cuota, usado, activo, f_vencimiento, created_at, updated_at) VALUES ('Till mobile', 'Free', 100, 5, 'true', '2017-08-16 16:25', '2017-08-16 16:25', '2017-08-16 16:25');
+INSERT INTO sms(desarrollador, plan, cuota, usado, activo, created_at, updated_at) VALUES ('Blower.io', 'Try', 3, 0, 'false', '2017-08-16 16:25', '2017-08-16 16:25');
+
+
+select f_inicial, f_vencimiento, desarrollador, plan,cuota, usado, activo from sms;
+UPDATE sms SET activo = 'true' WHERE f_vencimiento = '2017-03-19 16:25';
+
+
+UPDATE sms SET usado = 5 WHERE activo = 'true';
+UPDATE sms SET f_vencimiento = '2017-08-16 16:25' WHERE activo = 'true';
+UPDATE sms SET f_inicial = '2017-08-16 16:25' WHERE activo = 'true';
+
+
+UPDATE grupos SET cantidad_contactos = 1 WHERE id = 7;
+UPDATE mensajes SET cantidad_contactos = 0 WHERE id = 2;
+UPDATE mensajes SET contactos = 0 WHERE id = 1;
+
+
+UPDATE mensajes SET f_enviado = '2002-08-16 16:25' WHERE id = 6;
+UPDATE mensajes SET cantidad_contactos = 1981 WHERE id = 6;
+UPDATE mensajes SET cantidad_contactos = 19 WHERE id = 2;
+
+UPDATE mensajes SET cantidad_contactos = 75                 WHERE id = 8;
+UPDATE mensajes SET cantidad_contactos = 75                 WHERE id = 8;
+UPDATE mensajes SET user_id            = 2                  WHERE id = 8;
+UPDATE mensajes SET cantidad_contactos = 236                WHERE id = 9;
+UPDATE mensajes SET f_enviado          = '2012-02-19 16:25' WHERE id = 9;
+UPDATE mensajes SET user_id            = 2                  WHERE id = 9;
+UPDATE mensajes SET f_enviado          = nil                WHERE id = 3;
+UPDATE mensajes SET f_enviado          = '2012-02-19 16:25' WHERE id = 3;
+UPDATE mensajes SET enviado_por_id     = 1                  WHERE id = 3;
+
+UPDATE cupos SET usuario_id     = 1                  WHERE id = 1;
+UPDATE cupos SET usado          = 20                 WHERE id = 5;
+
+enviado_por_id
+sqlite3
+ALTER TABLE mensajes ADD COLUMN enviado_por_id integer;
+ALTER TABLE sms ADD COLUMN f_inicial datetime;
+
+postgresql
+ALTER TABLE mensajes ADD COLUMN enviado_por_id integer;
+ALTER TABLE sms ADD COLUMN f_inicial TIMESTAMP;
+ALTER TABLE ONLY grupos ALTER COLUMN cantidad_contactos SET DEFAULT 0;
+ALTER TABLE ONLY mensajes ALTER COLUMN cantidad_contactos SET DEFAULT 0;
+ALTER TABLE ONLY mensajes ALTER COLUMN contactos SET DEFAULT 0;
+(sqlite3 no tiene soporte para alterar columnas, solo queda borrar la tabla y volver a crearla)
+
+
+rails generate model Article title:string text:text
+rails generate model Comment commenter:string body:text 
+ 
+rails generate model Directo tlf:string sms:string
+rails g controller Directos new
+
+article:references
+
+rails db:migrate
+
+
+rails generate migration RemoveInitialValuesFromUsers about:string location:string website:string avatar:string cover:string 
+
+
+rails generate migration AddNuevaColumnaToGrupos cantidad_contactos:integer
+
+rails generate migration AddNuevaColumnaToContactos area:string
+
+
+sms cuota/usado se renuevan el f_vencimiento+1
+
+
+**************************************************************
+https://www.sitepoint.com/save-multiple-checkbox-values-database-rails/
+
+
+rails g migration CreateJoinTableGrupoMensaje grupo mensaje
+rake db:migrate
+
+***************************************************************
+rails g migration CreateJoinTableExpertiseProfessor expertise professor
+rails g migration CreateJoinTableMensajeContacto  mensaje contacto
+rails g migration CreateJoinTableContactoMensaje  contacto mensaje
+
+rails d migration CreateJoinTableMensajeContacto  mensaje contacto
+
+rails generate scaffold Mensaje texto:string contactos:integer
+
+tabla xxx
+enviado boolean default false
+mensaje_id
+grupo_id
+contacto_id
+telefono
+
+
+
+
+git init
+
+
+git add -A
+git commit -m "2do commit"
+git remote add origin https://github.com/rrg1459/mensajeria.git
+git push -u origin master
+
+
+*****************************************************
+*****************************************************
+*****************************************************
+*****************************************************
+http://www.rubydoc.info/gems/textveloper/0.2.0
+*****************************************************
+Cuenta Token	                            Aplicación Token
+44401a333598d4f8c502d721807c26df4e4402fb	1db2f7c644627a98d9e6e0f6b2c4f658df42b922
+
+
+sms = Textveloper::Sdk.new(cuenta_token,subcuenta_token)
+sms.send_sms(numero,mensaje)
+sms.account_balance
+
+
+sms = Textveloper::Sdk.new(44401a333598d4f8c502d721807c26df4e4402fb,1db2f7c644627a98d9e6e0f6b2c4f658df42b922)
+
+puts '------------------------------------'
+puts '------------------------------------'
+puts '------------------------------------'
+puts sms.account_balance
+puts sms.account_balance.inspect
+puts '------------------------------------'
+puts '------------------------------------'
+puts '------------------------------------'
+sms.send_sms("04165181317","Hola Mundo")
+puts './././././././././././././././././././'
+puts './././././././././././././././././././'
+
+
+
+cannot load such file -- bcrypt_ext (LoadError)
+C:/RailsInstaller/Ruby2.3.0/lib/ruby/gems/2.3.0/gems/activesupport-5.0.5/lib/active_support/dependencies.rb:293:in `require': cannot load such file -- bcrypt_ext (LoadError)
+
+gem list bcrypt
+
+gem uninstall bcrypt
+seleccionar 3 (All versions)
+gem install bcrypt --platform=ruby
+

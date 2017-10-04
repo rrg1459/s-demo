@@ -1,0 +1,13 @@
+curl -X POST https://api.textveloper.com/sms/enviar -d "telefono="04166215901"&mensaje='mensaje de prueba - curl linea de comando x4'&cuenta_token="44401a333598d4f8c502d721807c26df4e4402fb"&aplicacion_token="1db2f7c644627a98d9e6e0f6b2c4f658df42b922""
+
+curl -X POST https://api.textveloper.com/sms/applicacion/precios -d "pais=VE"
+
+curl -X POST https://api.textveloper.com/sms/log/enviados -d "telefono="04166215901"&cuenta_token="44401a333598d4f8c502d721807c26df4e4402fb"&aplicacion_token="1db2f7c644627a98d9e6e0f6b2c4f658df42b922"&pagina=1"
+
+curl -X POST https://api.textveloper.com/aplicacion/detalle/  -d "cuenta_token="44401a333598d4f8c502d721807c26df4e4402fb"&aplicacion_token="1db2f7c644627a98d9e6e0f6b2c4f658df42b922""
+
+
+
+
+prueba de envio en lista
+curl -X POST https://api.textveloper.com/sms/enviar/lista/ -d "telefono=4165181317, 4166215901&mensaje='mensaje de prueba lista - linea de comando sin comillas int 7894xx'&cuenta_token="44401a333598d4f8c502d721807c26df4e4402fb"&aplicacion_token="1db2f7c644627a98d9e6e0f6b2c4f658df42b922""

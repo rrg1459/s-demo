@@ -1,0 +1,75 @@
+<div class="col-lg-3"></div>
+<div class="col-lg-6 well">
+
+	<h2>Mensaje</h2>
+  <br>
+  <h4>Texto</h4>
+  <div class="mostrar alert alert-danger alert-dismissable">
+  	<button type="button" class="close" ></button>
+    <%= @mensaje.texto %>
+  </div>
+    <% if @mensaje.cantidad_contactos %>
+      <h5><%= "Alcance: " %><strong><%= @mensaje.cantidad_contactos %></strong><%= " contactos" %></h5>
+    <% end %>
+    <h5><%= "Creado: " %><strong><%= @mensaje.created_at.strftime("%d %b %Y") %></strong></h5>
+    <h5><%= "Editado: " %><strong><%= @mensaje.updated_at.strftime("%d %b %Y") %></strong></h5>
+    <h5><%= "Lo creó: " %><strong><%= @mensaje.user.name %></strong></h5>
+    <br>
+
+
+  <%= form_for(@mensaje) do |f| %>
+
+    <br>
+    <table>
+      <strong>
+      <h4><%= "Seleccionar grupos para enviar este mensaje" %></h4>
+      <h5><%= "(Después de seleccionar se debe guardar para envíar)" %></h5><br />
+      </strong>
+      <%= f.collection_check_boxes :grupo_ids, Grupo.all, :id, :nombre do |b| %>
+        <div class="collection-check-box">
+          <tr>
+            <td><%= b.check_box %></td>
+            <td><%= b.label %></td>
+          </tr>
+        </div>
+      <% end %>
+    </table>
+    <br>
+
+
+
+    
+  	<table>
+      <th>
+        <td> <%= button_to 'Enviar',  mensaje_path, :class => "btn btn-danger", method: :get %></td>
+        <td> <%= button_to 'Guardar', mensaje_path, :class => "btn btn-primary", method: :get %></td>
+
+
+
+
+
+
+
+
+
+
+        <td> <%= button_to 'Guardar get', mgrupo_path(@mensaje), :class => "btn btn-primary", method: :get %></td>
+        <td> <%= button_to 'Guardar post', mgrupo_path(@mensaje), :class => "btn btn-primary", method: :post %></td>
+
+
+
+
+
+
+
+
+        <td> <%= button_to 'Regresar', '/', :class => "btn btn-default", method: :get %></td>
+      </th>
+    </table>
+
+
+
+  <% end %>
+
+
+</div>

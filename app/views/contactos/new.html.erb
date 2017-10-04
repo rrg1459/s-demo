@@ -1,0 +1,7 @@
+<div class="col-lg-3"></div>
+<div class="col-lg-6 well">
+  <h1>Nuevo Contacto</h1>
+  <% @num = true %>
+  <%= render 'form', contacto: @contacto %>
+  <%= button_to 'Listado de Contactos', contactos_path, :class => "btn btn-info", method: :get %>
+</div>

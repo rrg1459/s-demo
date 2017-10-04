@@ -1,0 +1,34 @@
+<div class="col-lg-3"></div>
+  <div class="col-lg-6 well">
+  <% s = 's'; s = '' if @total == 1 %>
+  <table style="width:100%">
+    <tr>
+      <th style="text-align: left" ><h1><%= "#{@total} Grupo#{s}" %></h1></th>
+      <th style="text-align: right" ><%= button_to 'Nuevo Grupo', new_grupo_path, :class => "btn btn-primary", method: :get %></th>
+    </tr>
+  </table>
+  <% if @total > 0 %>
+    <br><h5><%= "(Se puede ver detalle del grupoal hacer CLIC en el en el nombre)" %></h5><br>
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Contactos</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @grupos.each do |grupo| %>
+          <% cg = ContactosGrupo.where(grupo_id: grupo.id) %>
+          <% contactos = cg.length %>
+          <tr>
+            <td><%= link_to grupo.nombre, grupo %></td>
+            <td><%= contactos %></td>
+            <td style="text-align: center" ><%= button_to 'Borrar', grupo, :class => "btn btn-danger", method: :delete, data: { confirm: "Esta usted seguro que quiere borrar al grupo #{grupo.nombre}???" } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <br>
+  <% end %>
+</div>

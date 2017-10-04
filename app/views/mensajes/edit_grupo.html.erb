@@ -1,0 +1,49 @@
+<div class="col-lg-3"></div>
+<div class="col-lg-6 well">
+  <%= form_for(@mensaje) do |f| %>
+    <% if @mensaje.errors.any? %>
+        <%= render 'parciales/error_message', error_message: @mensaje.errors.full_messages.first %>
+    <% end %>  
+    <div class="field">
+      <%= f.label "Modificar Texto" %>
+      <%= f.text_area :texto, class: "mostrar form-control", size: "128x2", placeholder: "Escribe un mensaje hasta 160 caracteres" %>
+    </div>
+    <div class="mostrar alert alert-danger alert-dismissable">
+      <button type="button" class="close" ></button>
+      <%= @mensaje.texto %>
+    </div>
+    <br>
+    <% largo = 160 - @mensaje.texto.length %>
+    <%= button_tag id: "mensaje", class: "btn btn-primary" do %>
+       Guardar
+    <% end %>
+    <table>
+      <th>
+        <td> <%= button_to 'Enviar',  mensaje_path, :class => "btn btn-danger", method: :get %></td>
+        <td> <%= button_to 'Guardar', mensaje_path, :class => "btn btn-primary", method: :get %></td>
+        <td> <%= button_to 'Guardar get', mgrupo_path(@mensaje), :class => "btn btn-primary", method: :get %></td>
+        <td> <%= button_to 'Guardar post', mgrupo_path(@mensaje), :class => "btn btn-primary", method: :post %></td>
+        <td> <%= button_to 'Regresar', '/', :class => "btn btn-default", method: :get %></td>
+      </th>
+    <div class="pull-right"> 
+      <span id="mensaje-count"><%= "#{largo}" %></span>
+    </div>
+    <br>
+    <table>
+      <strong>
+      <h4><%= "Seleccionar grupos para enviar este mensaje" %></h4>
+      <h5><%= "(Después de seleccionar se debe guardar para envíar)" %></h5><br />
+      </strong>
+      <%= f.collection_check_boxes :grupo_ids, Grupo.all, :id, :nombre do |b| %>
+        <div class="collection-check-box">
+          <tr>
+            <td><%= b.check_box %></td>
+            <td><%= b.label %></td>
+          </tr>
+        </div>
+      <% end %>
+    </table>
+    <br>
+  <% end %>
+  <br>
+</div>

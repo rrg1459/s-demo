@@ -1,0 +1,49 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <%= link_to "Mensajes", root_url, class: "navbar-brand" %>
+    </div>
+    <% if user_signed_in? %>
+      <div class="nav navbar-nav navbar-left">
+        <li>
+           <ul class="nav navbar-nav">
+           <li class="active dropdown">
+           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Gestión
+           <ul class="dropdown-menu" role="menu">
+             <strong><li class="dropdown-header">Operaciones</li></strong>
+             <li><%= link_to 'Contactos', contactos_path %></li>
+             <li><%= link_to 'Grupos', grupos_path %></li>
+             <li><%= link_to 'Cargar Archivo', archivos_cargar_path %></li>
+             <li class="divider"></li>
+             <strong><li class="dropdown-header">De interés</li></strong>
+             <li><%= link_to 'Diccionario', diccionario_path %></li>
+             <li><%= link_to 'Premisas', premisas_path %></li>
+             <li><%= link_to 'Términos y Condiciones', terminos_condiciones_path %></li>
+             <li><%= link_to 'Horario sugerido', horario_sugerido_path %></li>
+             <li><%= link_to 'Invitar a:', invitar_path if current_user.id == 2 %></li>
+           </ul>
+
+           <li class="dropdown">
+           <a class="dropdown-toggle" data-toggle="dropdown" >saldo: <b><%= number_to_currency(@saldo.saldo, {:precision => 0, :unit => "Bs ", :delimiter => "."})%></b>
+           <ul class="dropdown-menu" role="menu">
+             <li><a href="#"><%= number_to_currency(@valor, {:precision => 0, :unit => "Bs ", :delimiter => "."})%><%= " x SMS"%></a></li>
+             <li><a href="#"><%= "Cupo: #{@cupo} SMS"%></a></li>
+           </ul>
+        </li>
+
+         <%= link_to new_directo_url do %>
+            <button class="btn btn-default navbar-btn">SMS</button>
+         <% end %>
+      </div>
+      <div class="nav navbar-nav navbar-right">
+         <% nombre = current_user.name.split(" ") %>
+         <b><%= link_to "#{nombre[0].capitalize}", edit_user_path(current_user) %></b>&nbsp;
+         <%= link_to destroy_user_session_url, method: :delete do %>
+            <button class="btn btn-primary navbar-btn">Cerrar</button>
+         <% end %>
+      </div>
+    <% end %>
+  </div>
+</nav>
+
+

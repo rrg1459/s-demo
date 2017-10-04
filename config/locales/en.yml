@@ -1,0 +1,18 @@
+en:
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              blank: "El correo no puede estar en blanco" 
+            name:
+              blank: "El nombre no puede estar en blanco" 
+            username:
+              blank: "El usuario no puede estar en blanco" 
+            password:
+              blank: "La contraseña no puede estar en blanco" 
+              too_short: "la contraseña es muy pequeña (mínimo %{count} caracteres)"
+              too_long: "la contraseña es muy grande (máximo %{count} caracteres)"
+            password_confirmation:
+              confirmation: "Las contraseñas no son iguales"
