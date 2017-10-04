@@ -20,7 +20,7 @@
              <li><%= link_to 'Premisas', premisas_path %></li>
              <li><%= link_to 'Términos y Condiciones', terminos_condiciones_path %></li>
              <li><%= link_to 'Horario sugerido', horario_sugerido_path %></li>
-             <li><%= link_to 'Invitar a:', invitar_path %></li>
+             <li><%= link_to 'Invitar a:', invitar_path if current_user.id == 1 %></li>
            </ul>
 
            <li class="dropdown">

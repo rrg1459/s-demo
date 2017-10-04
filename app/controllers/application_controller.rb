@@ -7,9 +7,9 @@ class ApplicationController < ActionController::Base
 
   def saldo_sms
     @valor = ENV["SMS_VALOR_ENVIADO"]
-    @saldo = Saldo.find_by(usuario_id: current_user.id) # aaa bbb ccc xxx zzz ref mensaje modelo linea 76
-#   @saldo = Saldo.find_by(usuario_id: 999999) # aaa bbb ccc xxx zzz  ref  mensaje modelo linea 76    
-    @saldo = Saldo.create({"usuario_id" => current_user.id}) if !@saldo
+#   @saldo = Saldo.find_by(usuario_id: current_user.id) # aaa bbb ccc xxx zzz ref mensaje modelo linea 76
+    @saldo = Saldo.find_by(usuario_id: 999999) # aaa bbb ccc xxx zzz  ref  mensaje modelo linea 76    
+#   @saldo = Saldo.create({"usuario_id" => current_user.id}) if !@saldo
     @cupo = @saldo.saldo / @valor.to_i
     num   = @saldo.saldo % @valor.to_i
     @cupo += 1 if num > 0
