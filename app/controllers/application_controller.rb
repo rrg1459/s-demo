@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   def saldo_sms
-    @valor = ENV["VALOR"]
+    @valor = ENV["SMS_VALOR_ENVIADO"]
     @saldo = Saldo.find_by(usuario_id: current_user.id) # aaa bbb ccc xxx zzz ref mensaje modelo linea 76
 #   @saldo = Saldo.find_by(usuario_id: 999999) # aaa bbb ccc xxx zzz  ref  mensaje modelo linea 76    
     @saldo = Saldo.create({"usuario_id" => current_user.id}) if !@saldo

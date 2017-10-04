@@ -21,7 +21,7 @@ ok   09 quitar titulos cuando el contacto no tenga grupos
 *******************************************************
 
 git add -A
-git commit -m "2do commit, adaptacion a sms-demo"
+git commit -m "3do commit, adaptacion de texto de terminos y condiciones"
 
 git push heroku master
 

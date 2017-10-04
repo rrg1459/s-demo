@@ -15,9 +15,11 @@ ActiveRecord::Schema.define(version: 20170927111804) do
   create_table "contactos", force: :cascade do |t|
     t.string   "numero"
     t.string   "nombre"
-    t.string   "archivo",    default: "*cargado en linea*"
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
+    t.string   "archivo",    default: "*cargado-linea*"
+    t.integer  "user_id"
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.index ["user_id"], name: "index_contactos_on_user_id"
   end
 
   create_table "contactos_grupos", id: false, force: :cascade do |t|
