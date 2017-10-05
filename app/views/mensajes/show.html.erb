@@ -66,7 +66,8 @@
         <h4><%= "Se sugiere guardar justo antes de enviar" %></h4>
         <h5><%= "(para tener actualizado el alcance de los contactos)" %></h5><br />
         </strong>
-        <%= f.collection_check_boxes :grupo_ids, Grupo.all, :id, :nombre_cantidad do |b| %>
+        <!%= f.collection_check_boxes :grupo_ids, Grupo.all, :id, :nombre_cantidad do |b| %>
+        <%= f.collection_check_boxes :grupo_ids, Grupo.where(user_id: current_user.id), :id, :nombre_cantidad do |b| %>
           <div class="collection-check-box">
             <tr>
               <td><%= b.check_box %></td>

@@ -10,6 +10,8 @@ class DirectosController < ApplicationController
     capacidad_saldo(999999)
     if @capacidad 
       @directo = Directo.new(params.require(:directo).permit(:tlf, :sms, :di))
+      celular = params[:area] + params[:numero]
+      @directo.tlf = celular
     	respond_to do |format|
         if @directo.save
           procesar_sms(current_user.id)

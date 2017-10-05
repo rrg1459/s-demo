@@ -18,7 +18,7 @@
     <strong>
     <h4><%= f.label "Seleccionar contactos para agregar al grupo" %></h4><br />
     </strong>
-    <%= f.collection_check_boxes :contacto_ids, Contacto.all.order("numero"), :id, :numero_nombre do |b| %>
+    <%= f.collection_check_boxes :contacto_ids, @contacto_cb.order("numero"), :id, :numero_nombre do |b| %>
       <div class="collection-check-box">
         <tr>
           <td><%= b.check_box %></td>

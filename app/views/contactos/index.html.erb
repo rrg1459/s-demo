@@ -21,7 +21,7 @@
           </div>
           <table>
             <br><strong><%= f.label "(pertenece a los grupos)" %><br /></strong>
-            <%= f.collection_check_boxes :grupos_id_in_any, Grupo.all, :id, :nombre do |b| %>
+            <%= f.collection_check_boxes :grupos_id_in_any, @grupo_cb, :id, :nombre do |b| %>
               <div class="collection-check-box">
                 <tr>
                   <td><%= b.check_box %></td>

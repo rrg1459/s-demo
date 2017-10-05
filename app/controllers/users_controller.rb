@@ -4,8 +4,8 @@ class UsersController < ApplicationController
   before_action :check_user, only: [:edit, :update, :destroy]
   before_action :authenticate_user!
   before_action :saldo_sms
+  before_action :modo
   
-
   def show
     grupo = {"grupos_id_in_any"=>[params[:id].to_s]}
     @buscar = Contacto.search(grupo)

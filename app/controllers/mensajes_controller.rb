@@ -3,10 +3,11 @@ class MensajesController < ApplicationController
   before_action :set_mensaje, only: [:show, :alcance, :enviar, :edit, :update, :grupo, :destroy]
   before_action :authenticate_user!
   before_action :saldo_sms
+  before_action :modo
 
   def new
     @mensaje = Mensaje.new
-    @mensajes = Mensaje.all.order('updated_at DESC')
+    agrupar
   end
 
   def create
@@ -16,7 +17,7 @@ class MensajesController < ApplicationController
       if @mensaje.save
         format.html { redirect_to new_mensaje_path, notice: 'Mensaje creado' }
       else
-        @mensajes = Mensaje.all.order('updated_at DESC')
+        agrupar
         format.html { render :new }
       end
     end
@@ -29,8 +30,11 @@ class MensajesController < ApplicationController
   def alcance
     buscar_nombre
     mensaje = {"mensajes_id_in_any"=>[params[:id].to_s]}
-    @buscar = Contacto.search(mensaje)
-
+    if @modo == 'campanna'
+      @buscar = Contacto.search(mensaje)
+    else  
+      @buscar = Contacto.where(user_id: current_user.id).search(mensaje)
+    end
     @contactos = @buscar.result(distinct: true).order("numero")
     @total = (@contactos = @buscar.result(distinct: true).order("numero")).length
   end
@@ -38,6 +42,7 @@ class MensajesController < ApplicationController
   def enviar
     capacidad_saldo(params[:id])
     if @capacidad 
+      
 #      capacidad_demo(params[:id])
 #      enviar_mensaje(params[:id]) if @demo
        enviar_mensaje(params[:id])
@@ -92,6 +97,14 @@ class MensajesController < ApplicationController
   
   def mensaje_params
     params.require(:mensaje).permit(:texto, :cantidad_contactos, grupo_ids:[])
+  end
+
+  def agrupar
+    if @modo == 'campanna'
+      @mensajes = Mensaje.all.order('updated_at DESC')
+    else
+      @mensajes = Mensaje.where(user_id: current_user.id).order('updated_at DESC')
+    end
   end
 
 end

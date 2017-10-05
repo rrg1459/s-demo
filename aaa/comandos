@@ -177,6 +177,8 @@ rails d migration CreateJoinTableMensajeContacto  mensaje contacto
 
 rails generate scaffold Mensaje texto:string contactos:integer
 
+rails g migration AddIndexToApplication user_id:integer:index
+
 tabla xxx
 enviado boolean default false
 mensaje_id

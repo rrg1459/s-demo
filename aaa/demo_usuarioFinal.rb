@@ -30,15 +30,6 @@ Es importante correo rails db:seed a nivel del prompt del sistema
   devise :invitable, :database_authenticatable, :confirmable,
     :recoverable, :rememberable, :trackable, :validatable
 
-### application_controller
-  def saldo_sms
-...
-#   @saldo = Saldo.find_by(usuario_id: current_user.id) # aaa bbb ccc xxx zzz ref mensaje modelo linea 76
-    @saldo = Saldo.find_by(usuario_id: 999999) # aaa bbb ccc xxx zzz  ref  mensaje modelo linea 76    
-#   @saldo = Saldo.create({"usuario_id" => current_user.id}) if !@saldo
-...
-  end
-  
 ### en mensaje controller  
   def enviar
     capacidad_saldo(params[:id])
@@ -50,19 +41,7 @@ Es importante correo rails db:seed a nivel del prompt del sistema
     redirect_to mensaje_path, notice: @mensaje
   end
 
-### en mensaje modelo
-   def enviar_mensaje(di)
-...
-#   @saldo = Saldo.find_by(usuario_id: current_user.id) # aaa bbb ccc xxx zzz ref application_controller linea 10
-    @saldo = Saldo.find_by(usuario_id: 999999) # aaa bbb ccc xxx zzz  ref application_controller linea 10     
-...   
-   end
-...
-#   saldo= Saldo.find_by(usuario_id: current_user.id)
-    saldo= Saldo.find_by(usuario_id: 999999)
-...    
-  end
- ---------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------
 Para el demo  * * * * * * * * * * * * * * * * * * * - - - - - - - - - - - - - - 
 *********************
 ### en config environments production.rb
@@ -89,16 +68,6 @@ Para el demo  * * * * * * * * * * * * * * * * * * * - - - - - - - - - - - - - -
 ### en user modelo
   devise :invitable, :database_authenticatable, :registerable, :confirmable,
     :recoverable, :rememberable, :trackable, :validatable
-
-### application_controller
-  def saldo_sms
-...
-    @saldo = Saldo.find_by(usuario_id: current_user.id) # aaa bbb ccc xxx zzz ref mensaje modelo linea 76
-#   @saldo = Saldo.find_by(usuario_id: 999999) # aaa bbb ccc xxx zzz  ref  mensaje modelo linea 76    
-    @saldo = Saldo.create({"usuario_id" => current_user.id}) if !@saldo
-...
-  end
-
   
 ### en mensaje controller  
   def enviar
@@ -110,17 +79,3 @@ Para el demo  * * * * * * * * * * * * * * * * * * * - - - - - - - - - - - - - -
     end
     redirect_to mensaje_path, notice: @mensaje
   end
-  
-### en mensaje modelo
-   def enviar_mensaje(di)
-...
-    @saldo = Saldo.find_by(usuario_id: current_user.id) # aaa bbb ccc xxx zzz ref application_controller linea 10
-#   @saldo = Saldo.find_by(usuario_id: 999999) # aaa bbb ccc xxx zzz  ref application_controller linea 10     
-...   
-   end 
-...
-    saldo= Saldo.find_by(usuario_id: current_user.id)
-#   saldo= Saldo.find_by(usuario_id: 999999)
-
-
-

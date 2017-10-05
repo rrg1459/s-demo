@@ -4,15 +4,24 @@
     <%= render 'parciales/error_message', error_message: contacto.errors.full_messages.first %>
   <% end %>
 
+  <% if @existe %>
+    <%= render 'parciales/error_message', error_message: 'Número de contacto ya existe' %>
+  <% end %>
   <button class="btn btn-primary">Guardar</button>
 
   <br>
   <br>
   <% if @num %>
-    <div class="field">
-      <%= f.label :numero %>
-      <%= f.text_field :numero, id: :contacto_numero, class: "mostrar form-control", style: "width: 120px;"  %>
+    <strong><%= "Numero" %></strong>
+    <div class="input-group">
+      <select name="area", "params[area]"   class="mostrar form-control"   style="width: 85px;">
+        <optgroup label="Movilnet"><option value="416">0416</option><option value="426">0426</option></optgroup>
+        <optgroup label="Movistar"><option value="414">0414</option><option value="424">0424</option></optgroup>
+        <optgroup label="Digitel"> <option value="412">0412</option></optgroup>
+      </select>
+      <%= number_field_tag :numero, params[:numero], :min => 999999, :max => 9999999, :placeholder => "numero", class: "mostrar form-control", style: "width: 110px;", :required => "required" %>
     </div>
+    <br>
   <% else %>
     <%= "Telefono: " %> <strong><%= "(0#{contacto.numero[0,3]})#{contacto.numero[3,3]}-#{contacto.numero[6,7]}" %></strong>
   <% end %>
@@ -27,7 +36,7 @@
     <strong>
     <h4><%= f.label "Seleccionar grupos para agregar al contacto" %></h4><br />
     </strong>
-    <%= f.collection_check_boxes :grupo_ids, Grupo.all, :id, :nombre do |b| %>
+    <%= f.collection_check_boxes :grupo_ids, @grupo_cb, :id, :nombre do |b| %>
       <div class="collection-check-box">
         <tr>
           <td><%= b.check_box %></td>

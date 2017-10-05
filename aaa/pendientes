@@ -12,7 +12,9 @@ ok   07 agregar logica para restar del saldo y del demo
 ok   08 quitar titulos cuando el grupo no tenga contactos
 ok   09 quitar titulos cuando el contacto no tenga grupos
 *******************************************************
-11 cambiar el name por username en la vistas de los mensajes
+11   crear la tabla recargar saldo, hacer el scaffold respectivo y agrear la logica respectiva para recargar el saldo
+22   agregar verf los usuaruio existentes
+33   crear el controldador que solo lo pueda ver yo estas dos cosas
 
 }2
 "1) validar que solo el primer usuario pueda invitar, 2) validar que si hay por lo menos un usuairo NO se vea la pagina der registro y quitar registrable de devise, 3) se agrega archivo en aaa demo_usuarioFinal.rb para ver facilmente que se cambia en las aplicaciones de usuario final"
@@ -21,7 +23,7 @@ ok   09 quitar titulos cuando el contacto no tenga grupos
 *******************************************************
 
 git add -A
-git commit -m "1er commit carga inicial"
+git commit -m "se agrega modulo de modo y la logica necesaria"
 
 git push heroku master
 

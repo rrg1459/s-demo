@@ -5,11 +5,19 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+  def modo
+    @modo = ENV["MODO"]
+  end
+
   def saldo_sms
+    modo
     @valor = ENV["SMS_VALOR_ENVIADO"]
-#   @saldo = Saldo.find_by(usuario_id: current_user.id) # aaa bbb ccc xxx zzz ref mensaje modelo linea 76
-    @saldo = Saldo.find_by(usuario_id: 999999) # aaa bbb ccc xxx zzz  ref  mensaje modelo linea 76    
-#   @saldo = Saldo.create({"usuario_id" => current_user.id}) if !@saldo
+    if @modo == 'campanna'
+      @saldo = Saldo.find_by(usuario_id: 999999) # aaa bbb ccc xxx zzz  ref  mensaje modelo linea 76    
+    else
+      @saldo = Saldo.find_by(usuario_id: current_user.id) # aaa bbb ccc xxx zzz ref mensaje modelo linea 76
+    end
+    @saldo = Saldo.create({"usuario_id" => current_user.id}) if !@saldo
     @cupo = @saldo.saldo / @valor.to_i
     num   = @saldo.saldo % @valor.to_i
     @cupo += 1 if num > 0

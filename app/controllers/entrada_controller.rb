@@ -4,9 +4,10 @@ class EntradaController < ApplicationController
 
   def index
 #   @mensajes = Mensaje.all.paginate(page: params[:page]).order('updated_at DESC')
-    @mensajes = Mensaje.all.order('updated_at DESC')
+#   @mensajes = Mensaje.all.order('updated_at DESC')
+#   @mensajes = Mensaje.where(user_id: current_user.id).order('updated_at DESC')
   end
-  
+
   def diccionario
   end
 

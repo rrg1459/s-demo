@@ -25,7 +25,8 @@ private
   end
 
   def actualizar_todos_los_grupos
-    todos = Grupo.all
+   todos = Grupo.all
+#    todos = Grupo.where(user_id: current_user.id)
     todos.each do |cg|
       grupo = {"grupos_id_in_any"=>[cg.id.to_s]}
       buscar = Contacto.search(grupo)

@@ -9,8 +9,8 @@ class Contacto < ApplicationRecord
   validates :numero,      presence: { message: "en blanco" },
              numericality: {message: "no es numérico"},
              length: { is: 10, :message => "debe tener 10 dígitos" },
-             format: { with: /[4][1-2][2,4,6]/, message: "solo se aceptan los prefijos 412, 414, 424, 416 y 426" },
-             uniqueness: { case_sensitive: false, message: "de contacto ya existe" }
+             format: { with: /[4][1-2][2,4,6]/, message: "solo se aceptan los prefijos 412, 414, 424, 416 y 426" }
+#            uniqueness: { case_sensitive: false, message: "de contacto ya existe" }
 
   validates_numericality_of :numero, :greater_than_or_equal_to => 999999999, :message => ", el primer dígito tiene que ser 4"
 

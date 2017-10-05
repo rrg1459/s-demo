@@ -2,11 +2,16 @@ class GruposController < ApplicationController
   before_action :set_grupo, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
   before_action :saldo_sms
+  before_action :modo
 
   # GET /grupos
   # GET /grupos.json
   def index
-    @grupos = Grupo.all
+    if @modo == 'campanna'
+      @grupos = Grupo.all
+    else
+      @grupos = Grupo.where(user_id: current_user.id)
+    end
     @total = @grupos.length
   end
 
@@ -14,23 +19,30 @@ class GruposController < ApplicationController
   # GET /grupos/1.json
   def show
     grupo = {"grupos_id_in_any"=>[params[:id].to_s]}
-    @buscar = Contacto.search(grupo)
+    if @modo == 'campanna'
+      @buscar = Contacto.search(grupo)
+    else
+      @buscar = Contacto.where(user_id: current_user.id).search(grupo)
+    end
     @contactos = @buscar.result(distinct: true).order("numero")
   end
 
   # GET /grupos/new
   def new
     @grupo = Grupo.new
+    agrupar
   end
 
   # GET /grupos/1/edit
   def edit
+    agrupar
   end
 
   # POST /grupos
   # POST /grupos.json
   def create
     @grupo = Grupo.new(grupo_params)
+    @grupo.user_id = current_user.id
 
     respond_to do |format|
       if @grupo.save
@@ -46,6 +58,7 @@ class GruposController < ApplicationController
   # PATCH/PUT /grupos/1
   # PATCH/PUT /grupos/1.json
   def update
+    @grupo.user_id = current_user.id
     respond_to do |format|
       if @grupo.update(grupo_params)
         format.html { redirect_to @grupo, notice: 'Grupo editado' }
@@ -77,4 +90,13 @@ class GruposController < ApplicationController
     def grupo_params
       params.require(:grupo).permit(:nombre, contacto_ids:[])
     end
+
+    def agrupar
+      if @modo == 'campanna'
+        @contacto_cb = Contacto.all 
+      else
+        @contacto_cb = Contacto.where(user_id: current_user.id).order("numero")
+      end
+    end
+
 end

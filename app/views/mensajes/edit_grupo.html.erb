@@ -34,7 +34,7 @@
       <h4><%= "Seleccionar grupos para enviar este mensaje" %></h4>
       <h5><%= "(Después de seleccionar se debe guardar para envíar)" %></h5><br />
       </strong>
-      <%= f.collection_check_boxes :grupo_ids, Grupo.all, :id, :nombre do |b| %>
+      <%= f.collection_check_boxes :grupo_ids, @grupo, :id, :nombre do |b| %>
         <div class="collection-check-box">
           <tr>
             <td><%= b.check_box %></td>
