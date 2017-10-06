@@ -1,5 +1,6 @@
 class PaginaController < ApplicationController
   before_action :saldo_sms, if: :user_signed_in?
+  before_action :modo
 
   def terminos_condiciones
   	@valor = ENV["SMS_VALOR_ENVIADO"]

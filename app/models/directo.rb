@@ -13,7 +13,7 @@ private
   def procesar_sms(di)
     directo = Directo.last
     cid = Contacto.find_by(numero: directo.tlf)
-    cid = Contacto.create ( { "numero" => directo.tlf, "user_id" => di, "nombre" => "sms#{Time.now.strftime("%j")}#{rand(100..999)})}" } ) if !cid
+    cid = Contacto.create ( { "numero" => directo.tlf, "user_id" => di, "nombre" => "sms#{Time.now.strftime("%j")}#{rand(100..999)}" } ) if !cid
     mid = Mensaje.create ( { "texto" => directo.sms, "user_id" => di, "cantidad_contactos" => 1 })
     ContactosMensaje.create( { "mensaje_id" => mid.id, "contacto_id" => cid.id })
     enviar_mensaje(mid.id)

@@ -20,9 +20,12 @@
              <li><%= link_to 'Premisas', premisas_path %></li>
              <li><%= link_to 'Términos y Condiciones', terminos_condiciones_path %></li>
              <li><%= link_to 'Horario sugerido', horario_sugerido_path %></li>
-             <li><%= link_to 'Invitar a:', invitar_path if current_user.id == 1 %></li>
+            <% if @modo == 'demo' %>
+              <li><%= link_to 'Invitar a:', invitar_path %></li>
+            <% else %>
+              <li><%= link_to 'Invitar a:', invitar_path if current_user.id == 1 %></li>
+            <% end %>
            </ul>
-
            <li class="dropdown">
            <a class="dropdown-toggle" data-toggle="dropdown" >saldo: <b><%= number_to_currency(@saldo.saldo, {:precision => 0, :unit => "Bs ", :delimiter => "."})%></b>
            <ul class="dropdown-menu" role="menu">
@@ -30,10 +33,10 @@
              <li><a href="#"><%= "Cupo: #{@cupo} SMS"%></a></li>
            </ul>
         </li>
-
-         <%= link_to new_directo_url do %>
-            <button class="btn btn-default navbar-btn">SMS</button>
-         <% end %>
+        <li> <%= button_to 'SMS', new_directo_url, :class => "btn btn-default navbar-btn", method: :get %></li>
+        <li class="dropdown">
+           <a class="dropdown-toggle" data-toggle="dropdown" >modo: <b><%= "#{@modo}" %></b>
+           <ul class="dropdown-menu" role="menu"></ul>
       </div>
       <div class="nav navbar-nav navbar-right">
          <% nombre = current_user.name.split(" ") %>

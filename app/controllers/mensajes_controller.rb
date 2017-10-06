@@ -42,10 +42,12 @@ class MensajesController < ApplicationController
   def enviar
     capacidad_saldo(params[:id])
     if @capacidad 
-      
-#      capacidad_demo(params[:id])
-#      enviar_mensaje(params[:id]) if @demo
-       enviar_mensaje(params[:id])
+      if @modo == 'demo'
+        capacidad_demo(params[:id])
+        enviar_mensaje(params[:id]) if @demo
+      else
+        enviar_mensaje(params[:id])
+      end
     end
     redirect_to mensaje_path, notice: @mensaje
   end

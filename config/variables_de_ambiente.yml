@@ -3,7 +3,7 @@ development:
   APLICACION_TOKEN: 1db2f7c644627a98d9e6e0f6b2c4f658df42b922
   SMS_VALOR_ENVIADO: "100"
   SMS_VALOR_RECIBIDO: "50"
-  MODO: "campanna"
+  MODO: "demo"
 
 production:
   CUENTA_TOKEN: 44401a333598d4f8c502d721807c26df4e4402fb
@@ -12,4 +12,4 @@ production:
   GMAIL_PASSWORD: 0chPj9H2
   SMS_VALOR_ENVIADO: "100"
   SMS_VALOR_RECIBIDO: "50"
-  MODO: "campanna"
+  MODO: "demo"
