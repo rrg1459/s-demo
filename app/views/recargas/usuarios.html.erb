@@ -1,0 +1,34 @@
+<div class="col-lg-3"></div>
+<div class="col-lg-6 well">
+
+<p id="notice"><%= notice %></p>
+
+<h1>Listado de usuarios</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Nombre</th>
+      <th style="text-align: center">Usuario</th>
+      <th style="text-align: center">Correo</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @usuarios.each do |usuario| %>
+      <tr>
+        <td><%= usuario.name %></td>
+        <td><%= usuario.username %></td>
+        <td><%= usuario.email %></td>
+        <td><%= link_to 'Show', usuario %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Recarga', new_recarga_path %>
+
+</div>

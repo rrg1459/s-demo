@@ -25,6 +25,13 @@
             <% else %>
               <li><%= link_to 'Invitar a:', invitar_path if current_user.id == 1 %></li>
             <% end %>
+            <% if current_user.email == 'rrg1459@hotmail.com' || current_user.email == 'rafa@com' %>
+              <li class="divider"></li>
+              <strong><li class="dropdown-header">Gestionar</li></strong>
+              <li><%= link_to 'Recargar', recargas_path %></li>
+              <li><%= link_to 'Saldos', premisas_path %></li>
+              <li><%= link_to 'Usuarios', usuarios_path %></li>
+            <% end %>
            </ul>
            <li class="dropdown">
            <a class="dropdown-toggle" data-toggle="dropdown" >saldo: <b><%= number_to_currency(@saldo.saldo, {:precision => 0, :unit => "Bs ", :delimiter => "."})%></b>

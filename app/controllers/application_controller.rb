@@ -41,10 +41,15 @@ class ApplicationController < ActionController::Base
 #      @sms.update(f_vencimiento: nueva, usado: 0)
 #    end
 #  end  
-
   protected
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :email, :username, :password])
     devise_parameter_sanitizer.permit(:sign_in, keys: [:login, :username, :tos])
   end
+
+private
+  def usuario_autorizado
+    redirect_to root_url unless current_user.email == 'rrg1459@hotmail.com' || current_user.email == 'rafa@com'
+  end
+
 end

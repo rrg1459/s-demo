@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :recargas
   get  'archivos/cargar'
   post 'archivos/cargar'
   post 'archivos/borrar'
@@ -20,6 +21,7 @@ Rails.application.routes.draw do
   post  '/enviar/:id'            => 'mensajes#enviar',     as: 'enviar'
   get   '/alcance/:id'           => 'mensajes#alcance',    as: 'alcance'
   match '/invitar/'              => 'users#invitar',       via: [:get, :post]
+  get   '/usuarios/'             => 'recargas#usuarios'
   get   '/usar_sms/'             => 'pagina#usar_sms'
   get   '/terminos_condiciones/' => 'pagina#terminos_condiciones'
   get   '/diccionario/'          => 'entrada#diccionario' 

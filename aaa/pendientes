@@ -12,18 +12,37 @@ ok   07 agregar logica para restar del saldo y del demo
 ok   08 quitar titulos cuando el grupo no tenga contactos
 ok   09 quitar titulos cuando el contacto no tenga grupos
 *******************************************************
+
 11   crear la tabla recargar saldo, hacer el scaffold respectivo y agrear la logica respectiva para recargar el saldo
 22   agregar verf los usuaruio existentes
 33   crear el controldador que solo lo pueda ver yo estas dos cosas
 
-}2
-"1) validar que solo el primer usuario pueda invitar, 2) validar que si hay por lo menos un usuairo NO se vea la pagina der registro y quitar registrable de devise, 3) se agrega archivo en aaa demo_usuarioFinal.rb para ver facilmente que se cambia en las aplicaciones de usuario final"
+monto_divisa         integer 
+tipo_divisa          string   (bolivares, dolares, euros)
+cambio_bs            integer
+monto_bs             integer
+banco_origen         string
+referencia_origen    string
+transaccion_origen   string   (deposito, transferencia)
+banco_destino        string
+referencia_destino   string
+transaccion_destino  string   (deposito, transferencia)
+aplicado             boolean
+user_id              integer reference
+
+
+rails generate scaffold Recarga monto_divisa:integer tipo_divisa:string cambio_bs:integer monto_bs:integer banco_origen:string referencia_origen:string transaccion_origen:string banco_destino:string referencia_destino:string transaccion_destino:string aplicado:boolean user:references
+
+rails generate model photo album:references
+
+rails generate model photo user:references
+rails generate scaffold Mensaje texto:string contactos:integer
 
 
 *******************************************************
 
 git add -A
-git commit -m "commit para sms-demo 4"
+git commit -m "commit para sms-demo 5"
 
 git push heroku master
 

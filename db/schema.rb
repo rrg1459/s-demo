@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171005120405) do
+ActiveRecord::Schema.define(version: 20171006131036) do
 
   create_table "contactos", force: :cascade do |t|
     t.string   "numero"
@@ -61,6 +61,24 @@ ActiveRecord::Schema.define(version: 20171005120405) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["user_id"], name: "index_mensajes_on_user_id"
+  end
+
+  create_table "recargas", force: :cascade do |t|
+    t.integer  "monto_divisa"
+    t.string   "tipo_divisa"
+    t.integer  "cambio_bs"
+    t.integer  "monto_bs"
+    t.string   "banco_origen"
+    t.string   "referencia_origen"
+    t.string   "transaccion_origen"
+    t.string   "banco_destino"
+    t.string   "referencia_destino"
+    t.string   "transaccion_destino"
+    t.boolean  "aplicado",            default: false
+    t.integer  "user_id"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.index ["user_id"], name: "index_recargas_on_user_id"
   end
 
   create_table "saldos", force: :cascade do |t|

@@ -5,15 +5,16 @@ Es importante correr rails db:seed a nivel del prompt del sistema
 
 ### en config variables_de_ambiente.yml
   APLICACION_TOKEN: 50f2949a23fb510aac5100f0880784cff87bbcc5
+...  
+  GMAIL_USER: smsvene@gmail.com
 
 ### en config environments production.rb
   config.action_mailer.default_url_options = { :host => 'sigocontigo.herokuapp.com' }
 
 ### en config initializers devise.rb
-     correo del usuario final
   config.mailer_sender = 'juliopodemos@gmail.com'
 
-### en modelo user
+### en modelo user despues que el usuario inicial (Julio) se cree en la pagina
   devise :invitable, :database_authenticatable, :confirmable,
     :recoverable, :rememberable, :trackable, :validatable
 
@@ -24,6 +25,8 @@ Para el demo  * * * * * * * * * * * * * * * * * * * - - - - - - - - - - - - - -
 
 ### en config variables_de_ambiente.yml
   APLICACION_TOKEN: 1db2f7c644627a98d9e6e0f6b2c4f658df42b922
+...  
+  GMAIL_USER: sms.demo.ven@gmail.com
 
 ### en config environments production.rb
   config.action_mailer.default_url_options = { :host => 'sms-demo.herokuapp.com' }
