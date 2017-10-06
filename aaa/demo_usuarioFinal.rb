@@ -4,11 +4,11 @@ Para el usuario final * * * * * * * * * * * * * * * * * * * - - - - - - - - - - 
 Es importante correr rails db:seed a nivel del prompt del sistema
 
 ### en config environments production.rb
-  config.action_mailer.default_url_options = { :host => '(nombre de la aplicacion)sms-demo.herokuapp.com' }
+  config.action_mailer.default_url_options = { :host => sigocontigo.herokuapp.com' }
 
 ### en config initializers devise.rb
      correo del usuario final
-  config.mailer_sender = 'por-favor-cambiame-para-inicializar-una-cuenta@ejemplo.com'
+  config.mailer_sender = 'juliopodemos@gmail.com'
 
 ### en user modelo
   devise :invitable, :database_authenticatable, :confirmable,
