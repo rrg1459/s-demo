@@ -40,6 +40,18 @@ heroku git:clone -a sms-ven
 
 
 
+
+
+/////////////////////////////////////////
+git remote -v
+git remote set-url --add heroku https://git.heroku.com/sigocontigo.git
+git remote set-url --push heroku https://git.heroku.com/sigocontigo.git
+git remote -v
+/////////////////////////////////////////
+
+
+
+
 heroku restart -a sms-ven
 heroku run rails console
 
