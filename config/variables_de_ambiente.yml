@@ -6,3 +6,4 @@ development:
   MODO: "demo"
 
 production:
+  MODO: "demo"
