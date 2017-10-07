@@ -28,8 +28,6 @@
             <% if current_user.email == 'rrg1459@hotmail.com' || current_user.email == 'rafa@com' %>
               <li class="divider"></li>
               <strong><li class="dropdown-header">Gestionar</li></strong>
-              <li><%= link_to 'Recargar', recargas_path %></li>
-              <li><%= link_to 'Saldos', premisas_path %></li>
               <li><%= link_to 'Usuarios', usuarios_path %></li>
             <% end %>
            </ul>

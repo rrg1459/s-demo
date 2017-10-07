@@ -42,7 +42,7 @@ rails generate scaffold Mensaje texto:string contactos:integer
 *******************************************************
 
 git add -A
-git commit -m "commit para sms-demo 6"
+git commit -m "commit para sms-demo 7"
 
 git push heroku master
 

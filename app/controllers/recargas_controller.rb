@@ -6,6 +6,11 @@ class RecargasController < ApplicationController
 
   def usuarios
     @usuarios = User.all
+    @total = @usuarios.length
+  end
+
+  def usuario
+    @usuario = User.find(params[:id])
   end
 
   # GET /recargas

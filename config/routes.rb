@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   get   '/alcance/:id'           => 'mensajes#alcance',    as: 'alcance'
   match '/invitar/'              => 'users#invitar',       via: [:get, :post]
   get   '/usuarios/'             => 'recargas#usuarios'
+  get   '/usuario/:id'           => 'recargas#usuario',    as: 'usuario'
   get   '/usar_sms/'             => 'pagina#usar_sms'
   get   '/terminos_condiciones/' => 'pagina#terminos_condiciones'
   get   '/diccionario/'          => 'entrada#diccionario' 

@@ -1,9 +1,17 @@
 <div class="col-lg-3"></div>
 <div class="col-lg-6 well">
 
-<p id="notice"><%= notice %></p>
+  <p id="notice"><%= notice %></p>
 
-<h1>Listado de usuarios</h1>
+  <% s = 's'; s = '' if @total == 1 %>
+  <table style="width:100%">
+    <tr>
+      <th style="text-align: left" ><h1><%= "#{@total} Usuario#{s}" %></h1></th>
+      <th style="text-align: right" ><%= button_to 'Invitar a un usuario', invitar_path, :class => "btn btn-primary", method: :get %></th>
+    </tr>
+  </table>
+  <br>
+  <h5><%= "(Ver detalle del usuario al hacer CLIC en nombre, usuario, correo o saldo)" %></h5>
 
 <table>
   <thead>
@@ -11,24 +19,24 @@
       <th style="text-align: center">Nombre</th>
       <th style="text-align: center">Usuario</th>
       <th style="text-align: center">Correo</th>
+      <th style="text-align: center">Saldo</th>
       <th colspan="3"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @usuarios.each do |usuario| %>
+      <% saldo = Saldo.find_by(usuario_id: usuario.id) %>
       <tr>
-        <td><%= usuario.name %></td>
-        <td><%= usuario.username %></td>
-        <td><%= usuario.email %></td>
-        <td><%= link_to 'Show', usuario %></td>
+        <td><%= link_to usuario.name, usuario_path(usuario) %></td>
+        <td><%= link_to usuario.username, usuario_path(usuario) %></td>
+        <td><%= link_to usuario.email, usuario_path(usuario) %></td>
+        <td style="text-align: right"><%= link_to number_to_currency(saldo.saldo, {:precision => 0, :unit => "Bs ", :delimiter => "."}), usuario_path(usuario) %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
-<%= link_to 'New Recarga', new_recarga_path %>
 
 </div>

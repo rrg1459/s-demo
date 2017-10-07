@@ -1,0 +1,35 @@
+<div class="col-lg-3"></div>
+<div class="col-lg-6 well">
+
+<p id="notice"><%= notice %></p>
+<% saldo = Saldo.find_by(usuario_id: @usuario.id) %>
+
+<p>
+  <strong>Nombre:</strong>
+  <%= @usuario.name %>
+</p>
+
+<p>
+  <strong>Usuario:</strong>
+  <%= @usuario.username %>
+</p>
+
+<p>
+  <strong>Correo:</strong>
+  <%= @usuario.email %>
+</p>
+
+<p>
+  <strong>Saldo:</strong>
+  <%= number_to_currency(saldo.saldo, {:precision => 0, :unit => "Bs ", :delimiter => "."}) %>
+</p>
+
+<p>
+  <strong>Cargar saldo:</strong>
+</p>
+
+<p>
+  <strong>Aplicar saldo:</strong>
+</p>
+
+</div>
