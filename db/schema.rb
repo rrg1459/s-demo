@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171006131036) do
+ActiveRecord::Schema.define(version: 20171008201935) do
 
   create_table "contactos", force: :cascade do |t|
     t.string   "numero"
@@ -74,10 +74,13 @@ ActiveRecord::Schema.define(version: 20171006131036) do
     t.string   "banco_destino"
     t.string   "referencia_destino"
     t.string   "transaccion_destino"
-    t.boolean  "aplicado",            default: false
+    t.boolean  "aplicado",             default: false
     t.integer  "user_id"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.datetime "f_referencia_origen"
+    t.datetime "f_referencia_destino"
+    t.datetime "f_aplicado"
     t.index ["user_id"], name: "index_recargas_on_user_id"
   end
 
