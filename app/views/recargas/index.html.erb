@@ -1,47 +1,33 @@
 <div class="col-lg-3"></div>
 <div class="col-lg-6 well">
 
-<p id="notice"><%= notice %></p>
-
 <h1>Recargas</h1>
 
 <table>
   <thead>
     <tr>
-      <th>Monto divisa</th>
-      <th>Tipo divisa</th>
-      <th>Cambio bs</th>
+      <th>Usuario</th>
       <th>Monto bs</th>
-      <th>Banco origen</th>
-      <th>Referencia origen</th>
-      <th>Transaccion origen</th>
-      <th>Banco destino</th>
-      <th>Referencia destino</th>
-      <th>Transaccion destino</th>
-      <th>Aplicado</th>
-      <th>User</th>
+      <th>Fecha cargado</th>
+      <th>Fecha aplicado</th>
       <th colspan="3"></th>
     </tr>
   </thead>
 
   <tbody>
-    <% @recargas.each do |recarga| %>
+    <% @recargas.each do |recarga| %> 
+      <% usuario = User.find(recarga.user_id) %>
       <tr>
-        <td><%= recarga.monto_divisa %></td>
-        <td><%= recarga.tipo_divisa %></td>
-        <td><%= recarga.cambio_bs %></td>
-        <td><%= recarga.monto_bs %></td>
-        <td><%= recarga.banco_origen %></td>
-        <td><%= recarga.referencia_origen %></td>
-        <td><%= recarga.transaccion_origen %></td>
-        <td><%= recarga.banco_destino %></td>
-        <td><%= recarga.referencia_destino %></td>
-        <td><%= recarga.transaccion_destino %></td>
-        <td><%= recarga.aplicado %></td>
-        <td><%= recarga.user %></td>
-        <td><%= link_to 'Show', recarga %></td>
-        <td><%= link_to 'Edit', edit_recarga_path(recarga) %></td>
-        <td><%= link_to 'Destroy', recarga, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= usuario.username %></td>
+        <td><%= number_to_currency(recarga.monto_bs, {:precision => 0, :unit => "Bs ", :delimiter => "."})%></td>
+        <td><%= recarga.created_at.try(:strftime, "%m/%d/%Y %I:%M%p")  %></td>
+        <td><%= recarga.f_aplicado.try(:strftime, "%m/%d/%Y %I:%M%p")  %></td>
+        <td><%= link_to 'Mostrar', recarga %></td>
+        <% if !recarga.f_aplicado %>
+          <td><%= link_to 'Ajustar', edit_recarga_path(recarga) %></td>
+          <td><%= link_to 'Aplicar', aplicar_path(recarga) %></td>
+          <td><%= link_to 'Borrar', recarga, method: :delete, data: { confirm: 'Esta seguro???' } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

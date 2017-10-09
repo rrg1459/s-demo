@@ -1,77 +1,31 @@
 <%= form_for(recarga) do |f| %>
-  <% if recarga.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(recarga.errors.count, "error") %> prohibited this recarga from being saved:</h2>
 
-      <ul>
-      <% recarga.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
+  <% if recarga.errors.any? %>
+    <%= render 'parciales/error_message', error_message: recarga.errors.full_messages.first %>
   <% end %>
 
-  <div class="field">
-    <%= f.label :monto_divisa %>
-    <%= f.number_field :monto_divisa %>
-  </div>
+  <strong>Nombre:</strong>
+  <%= @usuario.name %>
+  <br>
+  <strong>Usuario:</strong>
+  <%= @usuario.username %>
+  <br>
+  <strong>Correo:</strong>
+  <%= @usuario.email %>
+  <br>
+  <strong>Saldo:</strong>
+  <%= number_to_currency(@usuario.saldo, {:precision => 0, :unit => "Bs ", :delimiter => "."}) %>
+  <br>
+  <br>
 
-  <div class="field">
-    <%= f.label :tipo_divisa %>
-    <%= f.text_field :tipo_divisa %>
-  </div>
-
-  <div class="field">
-    <%= f.label :cambio_bs %>
-    <%= f.number_field :cambio_bs %>
-  </div>
+  <% recarga.user_id = @usuario.id %>
+  <%= f.hidden_field :user_id  %>
 
   <div class="field">
     <%= f.label :monto_bs %>
     <%= f.number_field :monto_bs %>
   </div>
 
-  <div class="field">
-    <%= f.label :banco_origen %>
-    <%= f.text_field :banco_origen %>
-  </div>
+  <button class="btn btn-primary">Recargar</button>
 
-  <div class="field">
-    <%= f.label :referencia_origen %>
-    <%= f.text_field :referencia_origen %>
-  </div>
-
-  <div class="field">
-    <%= f.label :transaccion_origen %>
-    <%= f.text_field :transaccion_origen %>
-  </div>
-
-  <div class="field">
-    <%= f.label :banco_destino %>
-    <%= f.text_field :banco_destino %>
-  </div>
-
-  <div class="field">
-    <%= f.label :referencia_destino %>
-    <%= f.text_field :referencia_destino %>
-  </div>
-
-  <div class="field">
-    <%= f.label :transaccion_destino %>
-    <%= f.text_field :transaccion_destino %>
-  </div>
-
-  <div class="field">
-    <%= f.label :aplicado %>
-    <%= f.check_box :aplicado %>
-  </div>
-
-  <div class="field">
-    <%= f.label :user_id %>
-    <%= f.text_field :user_id %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit %>
-  </div>
 <% end %>

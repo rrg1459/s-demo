@@ -13,6 +13,12 @@ ok   08 quitar titulos cuando el grupo no tenga contactos
 ok   09 quitar titulos cuando el contacto no tenga grupos
 *******************************************************
 
+
+OJO QUITAR EL DEFAULT VALUE de saldos en la tabla saldos
+
+
+
+
 11   crear la tabla recargar saldo, hacer el scaffold respectivo y agrear la logica respectiva para recargar el saldo
 22   agregar verf los usuaruio existentes
 33   crear el controldador que solo lo pueda ver yo estas dos cosas
@@ -44,7 +50,7 @@ rails generate scaffold Mensaje texto:string contactos:integer
 *******************************************************
 
 git add -A
-git commit -m "commit para sms-demo 8"
+git commit -m "commit para sms-demo 9"
 
 git push heroku master
 

@@ -26,12 +26,11 @@
 
   <tbody>
     <% @usuarios.each do |usuario| %>
-      <% saldo = Saldo.find_by(usuario_id: usuario.id) %>
       <tr>
         <td><%= link_to usuario.name, usuario_path(usuario) %></td>
         <td><%= link_to usuario.username, usuario_path(usuario) %></td>
         <td><%= link_to usuario.email, usuario_path(usuario) %></td>
-        <td style="text-align: right"><%= link_to number_to_currency(saldo.saldo, {:precision => 0, :unit => "Bs ", :delimiter => "."}), usuario_path(usuario) %></td>
+        <td style="text-align: right"><%= link_to number_to_currency(usuario.saldo, {:precision => 0, :unit => "Bs ", :delimiter => "."}), usuario_path(usuario) %></td>
       </tr>
     <% end %>
   </tbody>

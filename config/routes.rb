@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :recargas
   get  'archivos/cargar'
   post 'archivos/cargar'
   post 'archivos/borrar'
@@ -11,6 +10,7 @@ Rails.application.routes.draw do
   unauthenticated :user do
     root 'pagina#index'
   end
+  resources :recargas
   resources :contactos
   resources :grupos
   resources :users, except: [:new, :create]
@@ -22,6 +22,8 @@ Rails.application.routes.draw do
   get   '/alcance/:id'           => 'mensajes#alcance',    as: 'alcance'
   match '/invitar/'              => 'users#invitar',       via: [:get, :post]
   get   '/usuarios/'             => 'recargas#usuarios'
+  get   '/recargar/:id'          => 'recargas#recargar',   as: 'recargar'
+  get   '/aplicar/:id'          => 'recargas#aplicar',     as: 'aplicar'
   get   '/usuario/:id'           => 'recargas#usuario',    as: 'usuario'
   get   '/usar_sms/'             => 'pagina#usar_sms'
   get   '/terminos_condiciones/' => 'pagina#terminos_condiciones'

@@ -4,7 +4,6 @@
 
   <center><h2><%= "Detalle de usuario"  %></h2></center>
 
-  <% saldo = Saldo.find_by(usuario_id: @usuario.id) %>
   <strong>Nombre:</strong>
   <%= @usuario.name %>
   <br>
@@ -15,7 +14,7 @@
   <%= @usuario.email %>
   <br>
   <strong>Saldo:</strong>
-  <%= number_to_currency(saldo.saldo, {:precision => 0, :unit => "Bs ", :delimiter => "."}) %>
+  <%= number_to_currency(@usuario.saldo, {:precision => 0, :unit => "Bs ", :delimiter => "."}) %>
   <br>
   <strong>Cargar saldo:</strong>
   <br>
@@ -75,6 +74,10 @@
 <strong>"invited_by_type"</strong>
 <%= @usuario.invited_by_type %>
 <br>
+<br>
+
+     <td> <%= button_to 'Recargar saldo', recargar_path(@usuario.id), :class => "btn btn-warning", method: :get %></td>
+
 
 </div>
 

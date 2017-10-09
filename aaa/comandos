@@ -191,6 +191,15 @@ rails generate scaffold Mensaje texto:string contactos:integer
 
 rails g migration AddIndexToApplication user_id:integer:index
 
+rails generate scaffold Recarga monto_divisa:integer tipo_divisa:string cambio_bs:integer monto_bs:integer banco_origen:string referencia_origen:string transaccion_origen:string banco_destino:string referencia_destino:string transaccion_destino:string aplicado:boolean user:references
+
+rails generate migration AddNuevaColumnaToRecargas f_referencia_origen:datetime f_referencia_destino:datetime f_aplicado:datetime
+
+rails generate migration AddNuevaColumnaToUsers saldo:integer
+
+***************************************************************
+
+
 tabla xxx
 enviado boolean default false
 mensaje_id

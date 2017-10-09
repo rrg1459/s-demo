@@ -1,67 +1,30 @@
 <div class="col-lg-3"></div>
 <div class="col-lg-6 well">
 
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Monto divisa:</strong>
-  <%= @recarga.monto_divisa %>
-</p>
-
-<p>
-  <strong>Tipo divisa:</strong>
-  <%= @recarga.tipo_divisa %>
-</p>
-
-<p>
-  <strong>Cambio bs:</strong>
-  <%= @recarga.cambio_bs %>
-</p>
-
-<p>
-  <strong>Monto bs:</strong>
-  <%= @recarga.monto_bs %>
-</p>
-
-<p>
-  <strong>Banco origen:</strong>
-  <%= @recarga.banco_origen %>
-</p>
-
-<p>
-  <strong>Referencia origen:</strong>
-  <%= @recarga.referencia_origen %>
-</p>
-
-<p>
-  <strong>Transaccion origen:</strong>
-  <%= @recarga.transaccion_origen %>
-</p>
-
-<p>
-  <strong>Banco destino:</strong>
-  <%= @recarga.banco_destino %>
-</p>
-
-<p>
-  <strong>Referencia destino:</strong>
-  <%= @recarga.referencia_destino %>
-</p>
-
-<p>
-  <strong>Transaccion destino:</strong>
-  <%= @recarga.transaccion_destino %>
-</p>
-
-<p>
-  <strong>Aplicado:</strong>
-  <%= @recarga.aplicado %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  <%= @recarga.user %>
-</p>
+  <h2>Detalle de la recarga</h2>
+  <strong>Nombre:</strong>
+  <%= @usuario.name %>
+  <br>
+  <strong>Usuario:</strong>
+  <%= @usuario.username %>
+  <br>
+  <strong>Correo:</strong>
+  <%= @usuario.email %>
+  <br>
+  <strong>Saldo del usuario:</strong>
+  <%= number_to_currency(@usuario.saldo, {:precision => 0, :unit => "Bs ", :delimiter => "."}) %>
+  <br>
+  <strong>Monto de la recarga:</strong>
+  <%= number_to_currency(@recarga.monto_bs, {:precision => 0, :unit => "Bs ", :delimiter => "."}) %>
+  <br>
+  <strong>Fecha creada:</strong>
+  <%= @recarga.created_at.try(:strftime, "%m/%d/%Y %I:%M%p")  %>
+  <br>
+  <strong>Fecha aplicada:</strong>
+  <%= @recarga.f_aplicado.try(:strftime, "%m/%d/%Y %I:%M%p")  %>
+  <br>
+  <br>
+  
 
 <%= link_to 'Edit', edit_recarga_path(@recarga) %> |
 <%= link_to 'Back', recargas_path %>

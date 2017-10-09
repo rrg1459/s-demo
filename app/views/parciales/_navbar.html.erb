@@ -32,7 +32,7 @@
             <% end %>
            </ul>
            <li class="dropdown">
-           <a class="dropdown-toggle" data-toggle="dropdown" >saldo: <b><%= number_to_currency(@saldo.saldo, {:precision => 0, :unit => "Bs ", :delimiter => "."})%></b>
+           <a class="dropdown-toggle" data-toggle="dropdown" >saldo: <b><%= number_to_currency(@saldo, {:precision => 0, :unit => "Bs ", :delimiter => "."})%></b>
            <ul class="dropdown-menu" role="menu">
              <li><a href="#"><%= number_to_currency(@valor, {:precision => 0, :unit => "Bs ", :delimiter => "."})%><%= " x SMS"%></a></li>
              <li><a href="#"><%= "Cupo: #{@cupo} SMS"%></a></li>
