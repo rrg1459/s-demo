@@ -76,9 +76,12 @@ class RecargasController < ApplicationController
     # rutina de enviar correo
     #
     @recarga = Recarga.new(recarga_params)
-    @usuario = User.find(@recarga.user_id) if @recarga.user_id != 999999
+    di = @recarga.user_id
+    di = 1 if di == 999999
+    @usuario = User.find(di)
     respond_to do |format|
       if @recarga.save
+        AccionCorreoMailer.recargado(@usuario, @recarga).deliver
         format.html { redirect_to @recarga, notice: 'La recarga fue cargada, se envió correo' }
         format.json { render :show, status: :created, location: @recarga }
       else

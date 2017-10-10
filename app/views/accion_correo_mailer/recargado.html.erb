@@ -1,0 +1,11 @@
+<h4>Su recarga de saldo fue cargada exitosamente en nuestro sistema.</h4>
+<h4>Esta recarga será transferida a su saldo cuando se verifique el monto en nuestras cuentas</h4>
+<h4><%= "Nombre de usuario: #{@usuario.name}" %> </h4>
+<h4><%= "Su saldo actual es de : #{number_to_currency(@saldo, {:precision => 0, :unit => "Bs ", :delimiter => "."})}" %> </h4>
+<h4><%= "Fecha en que se recibió la recarga: #{@recarga.created_at.try(:strftime, "%m/%d/%Y %I:%M%p")}" %> </h4>
+<h4><%= "Esta recarga es por: #{number_to_currency(@recarga.monto_bs, {:precision => 0, :unit => "Bs ", :delimiter => "."})}" %> </h4>
+<br>
+<p>
+<b><%= "Recuerda visitarnos en: " %>
+<%= link_to "#{root_url}", root_url %></b>
+</p>
