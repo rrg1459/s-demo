@@ -51,4 +51,18 @@ production:
 ### en modelo user
   devise :invitable, :database_authenticatable, :registerable, :confirmable,
     :recoverable, :rememberable, :trackable, :validatable
-  
+  *************************************************************
+  *************************************************************
+  *************************************************************
+  *************************************************************
+git remote -v
+
+git remote rm heroku
+heroku git:remote sms-demo
+git remote -v
+
+
+git remote rm heroku
+heroku git:remote sigocontigo
+git remote -v
+
