@@ -34,16 +34,16 @@ class RecargasController < ApplicationController
 # verificar si es campanna    
 #   @usuario = User.find(@recarga.user_id)
     if !@recarga.f_aplicado
-      if @recarga.user_id = 999999
+      if @recarga.user_id == 999999
         @saldo = Saldo.find_by(usuario_id: 999999) 
         nuevo_saldo = @saldo.saldo + @recarga.monto_bs
         @saldo.update_columns(saldo: nuevo_saldo)
-        mensaje = 'Recarga fue aplicada a la campaña'
+        mensaje = 'Recarga xxx fue aplicada a la campaña'
       else
         @usuario = User.find(@recarga.user_id)
         nuevo_saldo = @usuario.saldo + @recarga.monto_bs
         @usuario.update_columns(saldo: nuevo_saldo)
-        mensaje = 'Recarga fue aplicada al usuario'
+        mensaje = "Recarga fue aplicada al usuario: #{@usuario.username} "
       end
       @recarga.update_columns(f_aplicado: Time.now)
     else
