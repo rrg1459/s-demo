@@ -16,9 +16,11 @@
 
   <tbody>
     <% @recargas.each do |recarga| %> 
-      <% usuario = User.find(recarga.user_id) %>
+      <% nombre = 'campaña' %>
+      <% usuario = User.find(recarga.user_id) if recarga.user_id != 999999 %>
+      <% nombre = usuario.username if recarga.user_id != 999999 %>
       <tr>
-        <td><%= usuario.username %></td>
+        <td><%= nombre %></td>
         <td><%= number_to_currency(recarga.monto_bs, {:precision => 0, :unit => "Bs ", :delimiter => "."})%></td>
         <td><%= recarga.created_at.try(:strftime, "%m/%d/%Y %I:%M%p")  %></td>
         <td><%= recarga.f_aplicado.try(:strftime, "%m/%d/%Y %I:%M%p")  %></td>
@@ -34,7 +36,5 @@
 </table>
 
 <br>
-
-<%= link_to 'New Recarga', new_recarga_path %>
 
 </div>

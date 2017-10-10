@@ -16,69 +16,17 @@
   <strong>Saldo:</strong>
   <%= number_to_currency(@usuario.saldo, {:precision => 0, :unit => "Bs ", :delimiter => "."}) %>
   <br>
-  <strong>Cargar saldo:</strong>
+
+  <strong>"Veces que se ha logeado:"</strong>
+  <%= @usuario.sign_in_count %>
   <br>
-  <strong>Aplicar saldo:</strong>
+  <strong>"Ultima vez que entró:"</strong>
+  <%= @usuario.last_sign_in_at.try(:strftime, "%m/%d/%Y %I:%M%p") %>
   <br>
-  <strong>"encrypted_password"</strong>
-<%= @usuario.encrypted_password %>
-<br>
-<strong>"reset_password_token"</strong>
-<%= @usuario.reset_password_token %>
-<br>
-<strong>"reset_password_sent_at"</strong>
-<%= @usuario.reset_password_sent_at %>
-<br>
-<strong>"remember_created_at"</strong>
-<%= @usuario.remember_created_at %>
-<br>
-<strong>"sign_in_count"</strong>
-<%= @usuario.sign_in_count %>
-<br>
-<strong>"current_sign_in_at"</strong>
-<%= @usuario.current_sign_in_at %>
-<br>
-<strong>"last_sign_in_at"</strong>
-<%= @usuario.last_sign_in_at %>
-<br>
-<strong>"current_sign_in_ip"</strong>
-<%= @usuario.current_sign_in_ip %>
-<br>
-<strong>"last_sign_in_ip"</strong>
-<%= @usuario.last_sign_in_ip %>
-<br>
-<strong>"confirmation_token"</strong>
-<%= @usuario.confirmation_token %>
-<br>
-<strong>"confirmed_at"</strong>
-<%= @usuario.confirmed_at %>
-<br>
-<strong>"confirmation_sent_at"</strong>
-<%= @usuario.confirmation_sent_at %>
-<br>
-<strong>"invitation_token"</strong>
-<%= @usuario.invitation_token %>
-<br>
-<strong>"invitation_created_at"</strong>
-<%= @usuario.invitation_created_at %>
-<br>
-<strong>"invitation_sent_at"</strong>
-<%= @usuario.invitation_sent_at %>
-<br>
-<strong>"invitation_accepted_at"</strong>
-<%= @usuario.invitation_accepted_at %>
-<br>
-<strong>"invitation_limit"</strong>
-<%= @usuario.invitation_limit %>
-<br>
-<strong>"invited_by_type"</strong>
-<%= @usuario.invited_by_type %>
-<br>
-<br>
-
-     <td> <%= button_to 'Recargar saldo', recargar_path(@usuario.id), :class => "btn btn-warning", method: :get %></td>
-
-
+  <strong>"Ultima IP con la que entró:"</strong>
+  <%= @usuario.last_sign_in_ip %>
+  <br><br>
+  <td> <%= button_to 'Recargar saldo', recargar_path(@usuario.id), :class => "btn btn-warning", method: :get %></td>
 </div>
 
 

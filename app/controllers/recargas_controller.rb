@@ -16,13 +16,13 @@ class RecargasController < ApplicationController
   # GET /recargas
   # GET /recargas.json
   def index
-    @recargas = Recarga.all
+    @recargas = Recarga.all.order("user_id")
   end
 
   # GET /recargas/1
   # GET /recargas/1.json
   def show
-    @usuario = User.find(@recarga.user_id)
+    @usuario = User.find(@recarga.user_id) if @recarga.user_id != 999999
   end
 
   def recargar
@@ -32,17 +32,29 @@ class RecargasController < ApplicationController
 
   def aplicar
 # verificar si es campanna    
-    @usuario = User.find(@recarga.user_id)
-    nuevo_saldo = @usuario.saldo + @recarga.monto_bs
+#   @usuario = User.find(@recarga.user_id)
     if !@recarga.f_aplicado
-      @usuario.update_columns(saldo: nuevo_saldo)
+      if @recarga.user_id = 999999
+        @saldo = Saldo.find_by(usuario_id: 999999) 
+        nuevo_saldo = @saldo.saldo + @recarga.monto_bs
+        @saldo.update_columns(saldo: nuevo_saldo)
+        mensaje = 'Recarga fue aplicada a la campaña'
+      else
+        @usuario = User.find(@recarga.user_id)
+        nuevo_saldo = @usuario.saldo + @recarga.monto_bs
+        @usuario.update_columns(saldo: nuevo_saldo)
+        mensaje = 'Recarga fue aplicada al usuario'
+      end
       @recarga.update_columns(f_aplicado: Time.now)
-      mensaje = 'Recarga fue aplicada al usuario'
     else
       mensaje = 'No se aplicó la recarga al usuario, porque ya estaba aplicada'
     end
-#    buscar usuario 
-#    actualizar con sl nuevo saldo
+
+
+
+
+#    buscar usuario LISTO
+#    actualizar con sl nuevo saldo LISTO
 #    mandar correo
     redirect_to recargas_path, notice: mensaje
   end
@@ -54,7 +66,7 @@ class RecargasController < ApplicationController
 
   # GET /recargas/1/edit
   def edit
-    @usuario = User.find(@recarga.user_id)
+    @usuario = User.find(@recarga.user_id) if @recarga.user_id != 999999
   end
 
   # POST /recargas
@@ -64,7 +76,7 @@ class RecargasController < ApplicationController
     # rutina de enviar correo
     #
     @recarga = Recarga.new(recarga_params)
-    @usuario = User.find(@recarga.user_id)
+    @usuario = User.find(@recarga.user_id) if @recarga.user_id != 999999
     respond_to do |format|
       if @recarga.save
         format.html { redirect_to @recarga, notice: 'La recarga fue cargada, se envió correo' }

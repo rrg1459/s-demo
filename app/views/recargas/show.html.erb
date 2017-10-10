@@ -2,17 +2,23 @@
 <div class="col-lg-6 well">
 
   <h2>Detalle de la recarga</h2>
-  <strong>Nombre:</strong>
-  <%= @usuario.name %>
-  <br>
-  <strong>Usuario:</strong>
-  <%= @usuario.username %>
-  <br>
-  <strong>Correo:</strong>
-  <%= @usuario.email %>
-  <br>
-  <strong>Saldo del usuario:</strong>
-  <%= number_to_currency(@usuario.saldo, {:precision => 0, :unit => "Bs ", :delimiter => "."}) %>
+  <% if @usuario %>
+    <strong>Nombre:</strong>
+    <%= @usuario.name %>
+    <br>
+    <strong>Usuario:</strong>
+    <%= @usuario.username %>
+    <br>
+    <strong>Correo:</strong>
+    <%= @usuario.email %> 
+    <br>
+    <strong>Saldo del usuario:</strong>
+    <%= number_to_currency(@usuario.saldo, {:precision => 0, :unit => "Bs ", :delimiter => "."}) %>
+  <% else %>
+    <strong>Saldo de la campaña:</strong><br>
+    Ver barra de navegación
+  <% end %>
+
   <br>
   <strong>Monto de la recarga:</strong>
   <%= number_to_currency(@recarga.monto_bs, {:precision => 0, :unit => "Bs ", :delimiter => "."}) %>
@@ -26,7 +32,7 @@
   <br>
   
 
-<%= link_to 'Edit', edit_recarga_path(@recarga) %> |
-<%= link_to 'Back', recargas_path %>
+<%= link_to 'Ajustar recarga', edit_recarga_path(@recarga) %> |
+<%= link_to 'Lista de recargas', recargas_path %>
 
 </div>

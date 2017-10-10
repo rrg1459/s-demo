@@ -4,22 +4,23 @@
     <%= render 'parciales/error_message', error_message: recarga.errors.full_messages.first %>
   <% end %>
 
-  <strong>Nombre:</strong>
-  <%= @usuario.name %>
-  <br>
-  <strong>Usuario:</strong>
-  <%= @usuario.username %>
-  <br>
-  <strong>Correo:</strong>
-  <%= @usuario.email %>
-  <br>
-  <strong>Saldo:</strong>
-  <%= number_to_currency(@usuario.saldo, {:precision => 0, :unit => "Bs ", :delimiter => "."}) %>
-  <br>
-  <br>
-
-  <% recarga.user_id = @usuario.id %>
+  <% recarga.user_id = 999999 %>
+  <% if @usuario %>
+    <strong>Nombre:</strong>
+    <%= @usuario.name %>
+    <br>
+    <strong>Usuario:</strong>
+    <%= @usuario.username %>
+    <br>
+    <strong>Correo:</strong>
+    <%= @usuario.email %>
+    <br>
+    <strong>Saldo:</strong>
+    <%= number_to_currency(@usuario.saldo, {:precision => 0, :unit => "Bs ", :delimiter => "."}) %>
+    <% recarga.user_id = @usuario.id %>
+  <% end %>
   <%= f.hidden_field :user_id  %>
+  <br><br>
 
   <div class="field">
     <%= f.label :monto_bs %>
