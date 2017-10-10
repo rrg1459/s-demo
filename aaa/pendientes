@@ -50,7 +50,7 @@ rails generate scaffold Mensaje texto:string contactos:integer
 *******************************************************
 
 git add -A
-git commit -m "commit para sms-demo 11"
+git commit -m "se agrega lopgica de correo y saldo inicial que estaba en cero"
 
 git push heroku master
 

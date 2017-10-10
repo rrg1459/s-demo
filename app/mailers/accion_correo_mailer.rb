@@ -1,0 +1,2 @@
+class AccionCorreoMailer < ApplicationMailer
+end

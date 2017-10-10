@@ -259,3 +259,10 @@ gem uninstall bcrypt
 seleccionar 3 (All versions)
 gem install bcrypt --platform=ruby
 
+
+
+
+
+*******************************************************
+******************************************************]
+rails generate mailer AccionCorreoMailer

@@ -36,12 +36,14 @@ class User < ActiveRecord::Base
     def crea_saldo
       @modo = ENV["MODO"]
       if @modo != 'campanna'
-        puts '........'
+#        puts '........'
         @valor = ENV["SMS_VALOR_ENVIADO"]
-        puts @valor
-        puts '........'
+#        puts @valor
+#        puts '........'
         inicial = @valor.to_i * 10
-        Saldo.create({"usuario_id" => self.id, "saldo" => inicial}) if @modo = 'demo'
+#        Saldo.create({"usuario_id" => self.id, "saldo" => inicial}) if @modo = 'demo'
+        @usuario = User.find(self.id)
+        @usuario.update_columns(saldo: inicial)
       end
     end
 end
