@@ -20,7 +20,15 @@
       <% usuario = User.find(recarga.user_id) if recarga.user_id != 999999 %>
       <% nombre = usuario.username if recarga.user_id != 999999 %>
       <tr>
-        <td><%= nombre %></td>
+
+        <% if recarga.user_id != 999999 %>
+          <td><%= link_to nombre, usuario_path(usuario) %></td>
+        <% else %>
+          <td><%= nombre %></td>
+        <% end %>
+
+
+
         <td><%= number_to_currency(recarga.monto_bs, {:precision => 0, :unit => "Bs ", :delimiter => "."})%></td>
         <td><%= recarga.created_at.try(:strftime, "%m/%d/%Y %I:%M%p")  %></td>
         <td><%= recarga.f_aplicado.try(:strftime, "%m/%d/%Y %I:%M%p")  %></td>

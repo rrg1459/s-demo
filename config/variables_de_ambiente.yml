@@ -3,7 +3,7 @@ development:
   APLICACION_TOKEN: 50f2949a23fb510aac5100f0880784cff87bbcc5
   SMS_VALOR_ENVIADO: "100"
   SMS_VALOR_RECIBIDO: "50"
-  MODO: "demo"
+  MODO: "campanna"
 
 production:
   VARIABLE: "x"

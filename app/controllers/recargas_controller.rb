@@ -1,8 +1,13 @@
 class RecargasController < ApplicationController
   before_action :authenticate_user!
-  before_action :usuario_autorizado
+  before_action :usuario_autorizado, except: [:recargar, :new]
   before_action :saldo_sms
   before_action :set_recarga, only: [:aplicar, :show, :edit, :update, :destroy]
+  before_action :modo, only: :recargar
+
+
+
+
 
   def usuarios
     @usuarios = User.all
@@ -26,13 +31,34 @@ class RecargasController < ApplicationController
   end
 
   def recargar
-    @usuario = User.find(params[:id])
-    @recarga = Recarga.new
+    puts '1gggggggggggggggggggggggg'
+    puts '2gggggggggggggggggggggggg'
+    puts current_user.id
+    puts params[:id]
+    puts '3gggggggggggggggggggggggg'
+    puts '4gggggggggggggggggggggggg'
+    puts '5gggggggggggggggggggggggg'
+
+    if @modo == 'campanna'
+#              <li><%= link_to 'Pre recargar campaña', new_recarga_path %></li>
+      redirect_to new_recarga_path
+    else
+      redirect_to root_url, notice: 'Solo puedes pre-cargar tu propio saldo' if current_user.id.to_i != params[:id].to_i
+      @usuario = User.find(params[:id])
+      @recarga = Recarga.new
+    end
   end
 
   def aplicar
 # verificar si es campanna    
 #   @usuario = User.find(@recarga.user_id)
+
+
+
+
+
+
+
     if !@recarga.f_aplicado
       if @recarga.user_id == 999999
         @saldo = Saldo.find_by(usuario_id: 999999) 
@@ -45,17 +71,11 @@ class RecargasController < ApplicationController
         @usuario.update_columns(saldo: nuevo_saldo)
         mensaje = "Recarga fue aplicada al usuario: #{@usuario.username} "
       end
+      AccionCorreoMailer.aplicado(@usuario, @recarga).deliver
       @recarga.update_columns(f_aplicado: Time.now)
     else
       mensaje = 'No se aplicó la recarga al usuario, porque ya estaba aplicada'
     end
-
-
-
-
-#    buscar usuario LISTO
-#    actualizar con sl nuevo saldo LISTO
-#    mandar correo
     redirect_to recargas_path, notice: mensaje
   end
 
@@ -72,17 +92,21 @@ class RecargasController < ApplicationController
   # POST /recargas
   # POST /recargas.json
   def create
-    #
-    # rutina de enviar correo
-    #
     @recarga = Recarga.new(recarga_params)
-    di = @recarga.user_id
-    di = 1 if di == 999999
-    @usuario = User.find(di)
+##    di = @recarga.user_id
+##    di = 1 if di == 999999
+##    @usuario = User.find(di)
+    
+
+
+    @usuario = User.first if @recarga.user_id == 999999
+
+
+
     respond_to do |format|
       if @recarga.save
         AccionCorreoMailer.recargado(@usuario, @recarga).deliver
-        format.html { redirect_to @recarga, notice: 'La recarga fue cargada, se envió correo' }
+        format.html { redirect_to @recarga, notice: 'La pre-recarga fue cargada, se envió correo' }
         format.json { render :show, status: :created, location: @recarga }
       else
         format.html { render :new }
@@ -94,21 +118,13 @@ class RecargasController < ApplicationController
   # PATCH/PUT /recargas/1
   # PATCH/PUT /recargas/1.json
   def update
+    di = @recarga.user_id
+    di = 1 if di == 999999
+    @usuario = User.find(di)
     respond_to do |format|
       if @recarga.update(recarga_params)
-
-
-
-
-
-
-
-
-
-        #
-        # rutina de enviar correo
-        #
-        format.html { redirect_to @recarga, notice: 'Se ajustó la recarga, se envió correo' }
+        AccionCorreoMailer.ajustado(@usuario, @recarga).deliver
+        format.html { redirect_to @recarga, notice: 'Se ajustó la pre-recarga, se envió correo' }
         format.json { render :show, status: :ok, location: @recarga }
       else
         format.html { render :edit }
@@ -122,20 +138,7 @@ class RecargasController < ApplicationController
   def destroy
     @recarga.destroy
     respond_to do |format|
-
-
-
-
-
-
-
-
-
-
-      #
-      # rutina de enviar correo
-      #
-      format.html { redirect_to recargas_url, notice: 'Se borró la recarga' }
+      format.html { redirect_to recargas_url, notice: 'Se borró la pre-recarga' }
       format.json { head :no_content }
     end
   end

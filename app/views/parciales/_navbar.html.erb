@@ -14,6 +14,7 @@
              <li><%= link_to 'Contactos', contactos_path %></li>
              <li><%= link_to 'Grupos', grupos_path %></li>
              <li><%= link_to 'Cargar Archivo', archivos_cargar_path %></li>
+             <li><%= link_to 'Pre cargar saldo', recargar_path(current_user.id) %></li>
              <li class="divider"></li>
              <strong><li class="dropdown-header">De interés</li></strong>
              <li><%= link_to 'Diccionario', diccionario_path %></li>
@@ -29,7 +30,8 @@
               <li class="divider"></li>
               <strong><li class="dropdown-header">Gestionar</li></strong>
               <li><%= link_to 'Usuarios', usuarios_path %></li>
-              <li><%= link_to 'Recargar campaña', new_recarga_path %></li>
+              <li><%= link_to 'Pre recargar campaña', new_recarga_path %></li>
+              <li><%= link_to 'Lista de recargas', recargas_path %></li>
             <% end %>
            </ul>
            <li class="dropdown">
