@@ -1,4 +1,6 @@
 class AccionCorreoMailer < ApplicationMailer
+ #default from: 'pp28jul2017@gmail.com'
+  default from: ENV["GMAIL_USER"]
   
   
   def recargado(user, recarga)
