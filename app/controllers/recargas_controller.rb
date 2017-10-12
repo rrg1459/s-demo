@@ -61,7 +61,6 @@ class RecargasController < ApplicationController
   # GET /recargas/new
   def new
     @recarga = Recarga.new
-#   @recarga.referencia = "PRC#{Time.now.strftime("%j%H%M%S%L")}"
   end
 
   # GET /recargas/1/edit
