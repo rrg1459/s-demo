@@ -1,13 +1,9 @@
 class RecargasController < ApplicationController
   before_action :authenticate_user!
-  before_action :usuario_autorizado, except: [:recargar, :new]
+  before_action :usuario_autorizado, except: [:recargar, :new, :create]
   before_action :saldo_sms
   before_action :set_recarga, only: [:aplicar, :show, :edit, :update, :destroy]
-  before_action :modo, only: :recargar
-
-
-
-
+  before_action :modo, only: [:recargar, :create]
 
   def usuarios
     @usuarios = User.all
@@ -31,16 +27,7 @@ class RecargasController < ApplicationController
   end
 
   def recargar
-    puts '1gggggggggggggggggggggggg'
-    puts '2gggggggggggggggggggggggg'
-    puts current_user.id
-    puts params[:id]
-    puts '3gggggggggggggggggggggggg'
-    puts '4gggggggggggggggggggggggg'
-    puts '5gggggggggggggggggggggggg'
-
     if @modo == 'campanna'
-#              <li><%= link_to 'Pre recargar campaña', new_recarga_path %></li>
       redirect_to new_recarga_path
     else
       redirect_to root_url, notice: 'Solo puedes pre-cargar tu propio saldo' if current_user.id.to_i != params[:id].to_i
@@ -50,17 +37,9 @@ class RecargasController < ApplicationController
   end
 
   def aplicar
-# verificar si es campanna    
-#   @usuario = User.find(@recarga.user_id)
-
-
-
-
-
-
-
     if !@recarga.f_aplicado
       if @recarga.user_id == 999999
+        @usuario = User.first
         @saldo = Saldo.find_by(usuario_id: 999999) 
         nuevo_saldo = @saldo.saldo + @recarga.monto_bs
         @saldo.update_columns(saldo: nuevo_saldo)
@@ -82,6 +61,7 @@ class RecargasController < ApplicationController
   # GET /recargas/new
   def new
     @recarga = Recarga.new
+#   @recarga.referencia = "PRC#{Time.now.strftime("%j%H%M%S%L")}"
   end
 
   # GET /recargas/1/edit
@@ -92,17 +72,14 @@ class RecargasController < ApplicationController
   # POST /recargas
   # POST /recargas.json
   def create
+
     @recarga = Recarga.new(recarga_params)
-##    di = @recarga.user_id
-##    di = 1 if di == 999999
-##    @usuario = User.find(di)
-    
-
-
-    @usuario = User.first if @recarga.user_id == 999999
-
-
-
+    if @modo == 'campanna'
+      @recarga.user_id = 999999
+      @usuario = User.first
+    else
+      @usuario = User.find(@recarga.user_id)
+    end
     respond_to do |format|
       if @recarga.save
         AccionCorreoMailer.recargado(@usuario, @recarga).deliver
@@ -151,6 +128,6 @@ class RecargasController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def recarga_params
-      params.require(:recarga).permit(:monto_divisa, :tipo_divisa, :cambio_bs, :monto_bs, :banco_origen, :referencia_origen, :transaccion_origen, :banco_destino, :referencia_destino, :transaccion_destino, :aplicado, :user_id)
+      params.require(:recarga).permit(:monto_divisa, :tipo_divisa, :cambio_bs, :monto_bs, :banco_origen, :referencia_origen, :transaccion_origen, :banco_destino, :referencia_destino, :transaccion_destino, :aplicado, :user_id, :referencia, :comentarios)
     end
 end

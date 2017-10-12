@@ -2,10 +2,13 @@
 <h4><%= "Nombre de usuario: #{@usuario.name}" %> </h4>
 <% @anterior = @saldo - @recarga.monto_bs %>
 <h4><%= "Su saldo anterior era de: #{number_to_currency(@anterior, {:precision => 0, :unit => "Bs ", :delimiter => "."})}" %> </h4>
+<h4><%= "Número de referencia: #{@recarga.referencia}" %> </h4>
 <h4><%= "Esta pre-recarga es por: #{number_to_currency(@recarga.monto_bs, {:precision => 0, :unit => "Bs ", :delimiter => "."})}" %> </h4>
 <h4><%= "Su saldo actual es: #{number_to_currency(@saldo, {:precision => 0, :unit => "Bs ", :delimiter => "."})}" %> </h4>
 <h4><%= "Fecha en que se aplicó la pre-recarga: #{@recarga.f_aplicado.try(:strftime, "%m/%d/%Y %I:%M%p")}" %> </h4>
-<h4><!%= "Número de referencia: PRC#{Time.now.strftime("%j%H%M%S%L")}" %> </h4>
+<h4><%= "Comentarios:" %> </h4>
+<h4><%= @recarga.comentarios %> </h4>
+<h4><%= "Comentarios: #{@recarga.comentarios}" %> </h4>
 <br>
 <p>
 <b><%= "Recuerda visitarnos en: " %>

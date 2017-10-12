@@ -19,14 +19,26 @@
     <%= number_to_currency(@usuario.saldo, {:precision => 0, :unit => "Bs ", :delimiter => "."}) %>
     <% recarga.user_id = @usuario.id %>
   <% end %>
+  <br>
+
+  <% recarga.referencia = "PRC#{Time.now.strftime("%j%H%M%S%L")}" if recarga.referencia == nil %>
+
+  <strong>Referencia:</strong>
+  <%= recarga.referencia %>
+  <br>
+  <%= f.hidden_field :referencia %>
   <%= f.hidden_field :user_id  %>
-  <br><br>
+  <br>
 
   <div class="field">
     <%= f.label :monto_bs %>
     <%= f.number_field :monto_bs %>
   </div>
 
+  <div class="field">
+    <%= f.label :comentarios %>
+    <%= f.text_area :comentarios %>
+  </div>
   <button class="btn btn-primary">Recargar</button>
 
 <% end %>

@@ -50,7 +50,7 @@ rails generate scaffold Mensaje texto:string contactos:integer
 *******************************************************
 
 git add -A
-git commit -m "se continua logica de correo de pre-recarga 3"
+git commit -m "se continua logica de correo de pre-recarga 4"
 
 git push heroku master
 

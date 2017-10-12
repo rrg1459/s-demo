@@ -1,6 +1,6 @@
 class ArchivosController < ApplicationController
  before_action :authenticate_user!
- before_action :usuario_autorizado
+ before_action :modo_autorizado
  before_action :saldo_sms
  Ruta_directorio_archivos = "public/archivos/"
 

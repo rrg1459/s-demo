@@ -26,7 +26,7 @@
   <strong>"Ultima IP con la que entró:"</strong>
   <%= @usuario.last_sign_in_ip %>
   <br><br>
-  <td> <%= button_to 'Recargar saldo', recargar_path(@usuario.id), :class => "btn btn-warning", method: :get %></td>
+  <td> <%= button_to 'Pre-recargar saldo', recargar_path(@usuario.id), :class => "btn btn-warning", method: :get %></td>
 </div>
 
 

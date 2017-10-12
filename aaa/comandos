@@ -197,6 +197,8 @@ rails generate migration AddNuevaColumnaToRecargas f_referencia_origen:datetime 
 
 rails generate migration AddNuevaColumnaToUsers saldo:integer
 
+rails generate migration AddNuevaColToRecargas referencia:string comentarios:string
+
 ***************************************************************
 
 

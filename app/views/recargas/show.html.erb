@@ -23,16 +23,22 @@
   <strong>Monto de la recarga:</strong>
   <%= number_to_currency(@recarga.monto_bs, {:precision => 0, :unit => "Bs ", :delimiter => "."}) %>
   <br>
+  <strong>Referencia:</strong>
+  <%= @recarga.referencia %>
+  <br>
   <strong>Fecha creada:</strong>
   <%= @recarga.created_at.try(:strftime, "%m/%d/%Y %I:%M%p")  %>
   <br>
   <strong>Fecha aplicada:</strong>
   <%= @recarga.f_aplicado.try(:strftime, "%m/%d/%Y %I:%M%p")  %>
   <br>
+  <strong>Comentarios:</strong>
+  <%= @recarga.comentarios %>
+  <br>
   <br>
   
 
-<%= link_to 'Ajustar recarga', edit_recarga_path(@recarga) %> |
-<%= link_to 'Lista de recargas', recargas_path %>
+<%= link_to 'Ajustar pre-recarga', edit_recarga_path(@recarga) %> |
+<%= link_to 'Lista de pre-recargas', recargas_path %>
 
 </div>

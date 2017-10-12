@@ -9,6 +9,11 @@ class ApplicationController < ActionController::Base
     @modo = ENV["MODO"]
   end
 
+  def modo_autorizado
+    @modo = ENV["MODO"]
+    redirect_to root_url, notice: 'Solo se pueden cargar archivos en modo: campanna' unless @modo == 'campanna'
+  end
+
   def saldo_sms
     modo
     @valor = ENV["SMS_VALOR_ENVIADO"]

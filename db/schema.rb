@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171009104247) do
+ActiveRecord::Schema.define(version: 20171012135828) do
 
   create_table "contactos", force: :cascade do |t|
     t.string   "numero"
@@ -81,14 +81,16 @@ ActiveRecord::Schema.define(version: 20171009104247) do
     t.datetime "f_referencia_origen"
     t.datetime "f_referencia_destino"
     t.datetime "f_aplicado"
+    t.string   "referencia"
+    t.string   "comentarios"
     t.index ["user_id"], name: "index_recargas_on_user_id"
   end
 
   create_table "saldos", force: :cascade do |t|
     t.integer  "usuario_id"
-    t.integer  "saldo",      default: 1000
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.integer  "saldo",      default: 0
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "users", force: :cascade do |t|
