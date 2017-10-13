@@ -49,7 +49,7 @@ private
     @sms = mensaje.texto
     cm = ContactosMensaje.where(mensaje_id: di)
 
-    ciclo = 50 # maximo 100 por lista que es lo que permite la API
+    ciclo = 100 # maximo 100 por lista que es lo que permite la API
 
     todos = cm.length
     @uri = URI.parse("https://api.textveloper.com/sms/enviar/") 
@@ -71,25 +71,17 @@ private
       @tlf = numeros.map { |_| contactos[_] }.join(",")
     end
     modo
-
-
-
-
-
-
-
     enviar_sms
-
-
-
-
-
-
-
-
     total = total * @valor.to_i
     pedir_saldo
-    @saldo.update_columns(saldo: (@saldo.saldo - total)) 
+    if @modo == 'campanna'
+      saldo = Saldo.find_by(usuario_id: 999999)
+      saldo.update_columns(saldo: (@saldo - total)) 
+    else
+      @saldo = current_user.saldo
+      usuario = User.find(current_user.id)
+      usuario.update_columns(saldo: @saldo - total)
+    end  
     mensaje.enviado_por_id = current_user.id
     mensaje.f_enviado = Time.now
     mensaje.save
@@ -142,29 +134,24 @@ private
   end
 
   def capacidad_saldo(di)
-    if di == 999999
+    if di == 888888
       total = 1
     else
-      total = 0
-      mensaje = Mensaje.find(di)
-      cm = ContactosMensaje.where(mensaje_id: di)
-      cm.each do |c|
-        contacto = Contacto.find(c.contacto_id)
-        total += 1
-      end
+      total = (ContactosMensaje.where(mensaje_id: di)).length
     end
     total *= @valor.to_i
     modo
     pedir_saldo
     @capacidad = true
-    @capacidad = false if total > @saldo.saldo
-    @mensaje = 'El alcance supera su saldo, recargue su saldo para envíar este mensaje' if total > @saldo.saldo
+    @capacidad = false if total > @saldo
+    @mensaje = 'El alcance supera su saldo, recargue su saldo para envíar este mensaje' if total > @saldo
   end
 
   def pedir_saldo
-    if @modo = 'campanna'
-      @saldo = Saldo.find_by(usuario_id: 999999) # aaa bbb ccc xxx zzz  ref application_controller linea 10
+    if @modo == 'campanna'
+      saldo = Saldo.find_by(usuario_id: 999999)
+      @saldo = saldo.saldo
     else
-      @saldo = Saldo.find_by(usuario_id: current_user.id) # aaa bbb ccc xxx zzz ref application_controller linea 10
+      @saldo = current_user.saldo
     end  
   end

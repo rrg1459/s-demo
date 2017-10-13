@@ -1,4 +1,4 @@
-class User < ActiveRecord::Base
+ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
 
@@ -35,13 +35,9 @@ class User < ActiveRecord::Base
   protected
     def crea_saldo
       @modo = ENV["MODO"]
-      if @modo != 'campanna'
-#        puts '........'
+      if @modo == 'demo'
         @valor = ENV["SMS_VALOR_ENVIADO"]
-#        puts @valor
-#        puts '........'
         inicial = @valor.to_i * 10
-#        Saldo.create({"usuario_id" => self.id, "saldo" => inicial}) if @modo = 'demo'
         @usuario = User.find(self.id)
         @usuario.update_columns(saldo: inicial)
       end

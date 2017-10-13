@@ -7,7 +7,7 @@ class DirectosController < ApplicationController
   end
 
   def create
-    capacidad_saldo(999999)
+    capacidad_saldo(888888)
     if @capacidad 
       @directo = Directo.new(params.require(:directo).permit(:tlf, :sms, :di))
       celular = params[:area] + params[:numero]

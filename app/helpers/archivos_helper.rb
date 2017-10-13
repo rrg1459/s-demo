@@ -10,6 +10,7 @@ module ArchivosHelper
   end
 
   def importar(file_path)
+    modo
     @contador = { buenos: 0, malos: 0 }
     file = abrir_archivo(file_path)
       File.open("public/archivos/errores.xls", "a+"){|f|;
@@ -34,9 +35,7 @@ module ArchivosHelper
         numero = fila[0].to_s
         nombre = fila[1]
         numero = numero.gsub(/[ .,;()-]*/, '')
-        if numero.last == '0'
-          numero = numero.to_i / 10
-        end
+        numero = numero.to_i / 10 if numero.last == '0'
         if numero.to_i > 4120100000 && numero.to_i < 4269999999
           numero = numero.to_i
           area = numero.to_s[0,3]
@@ -49,6 +48,7 @@ module ArchivosHelper
               @contacto.numero  = numero
               @contacto.nombre  = nombre 
               @contacto.archivo = file_path.original_filename
+              @contacto.user_id = current_user.id if @modo != 'campanna'
               @contacto.save  
               @contador[:buenos] += 1       
             end

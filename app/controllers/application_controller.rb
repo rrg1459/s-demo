@@ -18,15 +18,11 @@ class ApplicationController < ActionController::Base
     modo
     @valor = ENV["SMS_VALOR_ENVIADO"]
     if @modo == 'campanna'
- #     @saldo = Saldo.find_by(usuario_id: 999999) # aaa bbb ccc xxx zzz  ref  mensaje modelo linea 76    
-      @saldo = Saldo.last # aaa bbb ccc xxx zzz  ref  mensaje modelo linea 76    
-      saldo = Saldo.last # aaa bbb ccc xxx zzz  ref  mensaje modelo linea 76    
+      saldo = Saldo.last 
       @saldo = saldo.saldo if saldo
     else
- #    @saldo = Saldo.find_by(usuario_id: current_user.id) # aaa bbb ccc xxx zzz ref mensaje modelo linea 76
       @saldo = current_user.saldo  
     end
-  # @saldo = Saldo.create({"usuario_id" => current_user.id}) if !@saldo
     if !@saldo
       saldo = Saldo.create({"usuario_id" => 999999, "saldo" => 0})
       @saldo = saldo.saldo
