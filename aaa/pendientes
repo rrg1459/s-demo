@@ -48,7 +48,7 @@ rails generate scaffold Mensaje texto:string contactos:integer
 
 
 *******************************************************
-
+ 
 git add -A
 git commit -m "proyecto estable 1"
 
