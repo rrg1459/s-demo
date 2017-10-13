@@ -23,7 +23,8 @@ Rails.application.routes.draw do
   match '/invitar/'              => 'users#invitar',       via: [:get, :post]
   get   '/usuarios/'             => 'recargas#usuarios'
   get   '/recargar/:id'          => 'recargas#recargar',   as: 'recargar'
-  get   '/aplicar/:id'          => 'recargas#aplicar',     as: 'aplicar'
+  get   '/aplicar/:id'           => 'recargas#aplicar',    as: 'aplicar'
+  get   '/recibir/'              => 'recibir#sms',         as: 'recibir'
   get   '/usuario/:id'           => 'recargas#usuario',    as: 'usuario'
   get   '/usar_sms/'             => 'pagina#usar_sms'
   get   '/terminos_condiciones/' => 'pagina#terminos_condiciones'
