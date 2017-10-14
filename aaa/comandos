@@ -266,5 +266,7 @@ gem install bcrypt --platform=ruby
 
 
 *******************************************************
-******************************************************]
+*******************************************************
 rails generate mailer AccionCorreoMailer
+
+rails generate controller Recibir sms

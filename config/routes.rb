@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+# get 'recibir/sms'
+
   get  'archivos/cargar'
   post 'archivos/cargar'
   post 'archivos/borrar'

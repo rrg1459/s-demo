@@ -50,7 +50,7 @@ rails generate scaffold Mensaje texto:string contactos:integer
 *******************************************************
  
 git add -A
-git commit -m "se agrega ruta recibir sms"
+git commit -m "se agrega controlador recibir sms"
 
 git push heroku master
 
